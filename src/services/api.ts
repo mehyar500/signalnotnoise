@@ -11,12 +11,43 @@ interface SearchResponse {
   items: Cluster[];
 }
 
+interface BlindspotResponse {
+  items: Cluster[];
+  total: number;
+}
+
 interface Stats {
   activeSources: number;
   totalArticles: number;
   activeClusters: number;
   articlesLast24h: number;
   aiAvailable: boolean;
+}
+
+interface AdminSource {
+  id: string;
+  name: string;
+  sub_source: string | null;
+  feed_url: string;
+  bias_label: string;
+  is_active: boolean;
+  last_fetched_at: string | null;
+  created_at: string;
+}
+
+interface FeedValidation {
+  valid: boolean;
+  itemCount: number;
+  title: string | null;
+  error: string | null;
+}
+
+interface BulkImportResult {
+  inserted: number;
+  skipped: number;
+  failed: number;
+  total: number;
+  results: Array<{ name: string; url: string; status: string; error?: string; itemCount?: number }>;
 }
 
 export const api = createApi({
@@ -29,7 +60,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Clusters', 'Digest', 'Stats', 'Collections', 'Bookmarks'],
+  tagTypes: ['Clusters', 'Digest', 'Stats', 'Collections', 'Bookmarks', 'AdminSources'],
   endpoints: (builder) => ({
     getClusters: builder.query<GetClustersResponse, { cursor?: string; limit?: number }>({
       query: ({ cursor, limit = 20 }) => {
@@ -42,6 +73,10 @@ export const api = createApi({
     }),
     getClusterDetail: builder.query<Cluster, string>({
       query: (id) => `clusters/${id}`,
+    }),
+    getBlindspotClusters: builder.query<BlindspotResponse, void>({
+      query: () => 'clusters/blindspot',
+      providesTags: ['Clusters'],
     }),
     getDigest: builder.query<DailyDigest | null, void>({
       query: () => 'digest',
@@ -101,12 +136,41 @@ export const api = createApi({
         return `search?${params}`;
       },
     }),
+
+    getAdminSources: builder.query<{ sources: AdminSource[]; total: number }, void>({
+      query: () => 'admin/sources',
+      providesTags: ['AdminSources'],
+    }),
+    addSource: builder.mutation<{ source: AdminSource; validation: FeedValidation }, { name: string; feedUrl: string; biasLabel?: string; subSource?: string }>({
+      query: (body) => ({ url: 'admin/sources', method: 'POST', body }),
+      invalidatesTags: ['AdminSources', 'Stats'],
+    }),
+    bulkImportSources: builder.mutation<BulkImportResult, { sources: Array<{ name: string; feedUrl: string; biasLabel?: string; subSource?: string }> }>({
+      query: (body) => ({ url: 'admin/sources/bulk', method: 'POST', body }),
+      invalidatesTags: ['AdminSources', 'Stats'],
+    }),
+    importSourceFile: builder.mutation<BulkImportResult, { filePath: string; biasMap?: Record<string, string> }>({
+      query: (body) => ({ url: 'admin/sources/import-file', method: 'POST', body }),
+      invalidatesTags: ['AdminSources', 'Stats'],
+    }),
+    updateSource: builder.mutation<{ source: AdminSource }, { id: string; name?: string; biasLabel?: string; isActive?: boolean }>({
+      query: ({ id, ...body }) => ({ url: `admin/sources/${id}`, method: 'PATCH', body }),
+      invalidatesTags: ['AdminSources'],
+    }),
+    deleteSource: builder.mutation<{ deleted: boolean }, string>({
+      query: (id) => ({ url: `admin/sources/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['AdminSources', 'Stats'],
+    }),
+    validateFeed: builder.mutation<FeedValidation, { feedUrl: string }>({
+      query: (body) => ({ url: 'admin/sources/validate', method: 'POST', body }),
+    }),
   }),
 });
 
 export const {
   useGetClustersQuery,
   useGetClusterDetailQuery,
+  useGetBlindspotClustersQuery,
   useGetDigestQuery,
   useGetStatsQuery,
   useTriggerSyncMutation,
@@ -120,4 +184,11 @@ export const {
   useDeleteBookmarkMutation,
   useCheckBookmarksQuery,
   useSearchClustersQuery,
+  useGetAdminSourcesQuery,
+  useAddSourceMutation,
+  useBulkImportSourcesMutation,
+  useImportSourceFileMutation,
+  useUpdateSourceMutation,
+  useDeleteSourceMutation,
+  useValidateFeedMutation,
 } = api;

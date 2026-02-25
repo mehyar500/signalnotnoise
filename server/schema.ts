@@ -84,6 +84,7 @@ export async function initSchema() {
 
   await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT`);
   await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS display_name TEXT`);
+  await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS is_admin BOOLEAN DEFAULT false`);
 
   await query(`
     CREATE TABLE IF NOT EXISTS collections (

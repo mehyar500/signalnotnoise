@@ -3,11 +3,13 @@ import cors from 'cors';
 import cron from 'node-cron';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { readFileSync } from 'fs';
 import { query } from './db.js';
 import { initSchema } from './schema.js';
 import { seedSources } from './seed-sources.js';
 import { syncAllFeeds, enrichClustersWithAI, generateDailyDigest } from './services/pipeline.js';
 import { isAIAvailable } from './services/cloudflare-ai.js';
+import { validateFeed } from './services/feed-validator.js';
 
 const app = express();
 const PORT = 3001;
@@ -22,6 +24,26 @@ function getUserIdFromRequest(req: express.Request): string | null {
     const decoded = jwt.verify(auth.slice(7), JWT_SECRET) as { userId: string };
     return decoded.userId;
   } catch {
+    return null;
+  }
+}
+
+async function requireAdmin(req: express.Request, res: express.Response): Promise<string | null> {
+  const userId = getUserIdFromRequest(req);
+  if (!userId) {
+    res.status(401).json({ error: 'Authentication required' });
+    return null;
+  }
+  try {
+    const result = await query('SELECT is_admin FROM users WHERE id = $1', [userId]);
+    if (result.rows.length === 0 || !result.rows[0].is_admin) {
+      res.status(403).json({ error: 'Admin access required' });
+      return null;
+    }
+    return userId;
+  } catch (err) {
+    console.error('[auth] requireAdmin error:', err);
+    res.status(500).json({ error: 'Internal server error' });
     return null;
   }
 }
@@ -53,16 +75,20 @@ app.post('/api/v1/auth/signup', async (req, res) => {
     }
 
     const hash = await bcrypt.hash(password, 10);
+    const userCount = await query('SELECT COUNT(*) as cnt FROM users');
+    const isFirstUser = parseInt(userCount.rows[0].cnt) === 0;
+
     const result = await query(
-      'INSERT INTO users (id, email, password_hash, display_name, created_at, last_active_at) VALUES (gen_random_uuid(), $1, $2, $3, NOW(), NOW()) RETURNING id, email, display_name',
-      [email.toLowerCase().trim(), hash, displayName || null]
+      'INSERT INTO users (id, email, password_hash, display_name, is_admin, created_at, last_active_at) VALUES (gen_random_uuid(), $1, $2, $3, $4, NOW(), NOW()) RETURNING id, email, display_name, is_admin',
+      [email.toLowerCase().trim(), hash, displayName || null, isFirstUser]
     );
+    if (isFirstUser) console.log(`[auth] First user ${email} registered as admin`);
 
     const user = result.rows[0];
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
 
     res.status(201).json({
-      user: { id: user.id, email: user.email, displayName: user.display_name },
+      user: { id: user.id, email: user.email, displayName: user.display_name, isAdmin: user.is_admin },
       token,
     });
   } catch (err) {
@@ -78,7 +104,7 @@ app.post('/api/v1/auth/signin', async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const result = await query('SELECT id, email, display_name, password_hash FROM users WHERE email = $1', [email.toLowerCase().trim()]);
+    const result = await query('SELECT id, email, display_name, password_hash, is_admin FROM users WHERE email = $1', [email.toLowerCase().trim()]);
     if (result.rows.length === 0) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
@@ -97,7 +123,7 @@ app.post('/api/v1/auth/signin', async (req, res) => {
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
 
     res.json({
-      user: { id: user.id, email: user.email, displayName: user.display_name },
+      user: { id: user.id, email: user.email, displayName: user.display_name, isAdmin: user.is_admin || false },
       token,
     });
   } catch (err) {
@@ -110,10 +136,10 @@ app.get('/api/v1/auth/me', async (req, res) => {
   const userId = getUserIdFromRequest(req);
   if (!userId) return res.status(401).json({ error: 'Not authenticated' });
   try {
-    const result = await query('SELECT id, email, display_name FROM users WHERE id = $1', [userId]);
+    const result = await query('SELECT id, email, display_name, is_admin FROM users WHERE id = $1', [userId]);
     if (result.rows.length === 0) return res.status(401).json({ error: 'User not found' });
     const u = result.rows[0];
-    res.json({ id: u.id, email: u.email, displayName: u.display_name });
+    res.json({ id: u.id, email: u.email, displayName: u.display_name, isAdmin: u.is_admin || false });
   } catch (err) {
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -205,6 +231,41 @@ app.get('/api/v1/clusters', async (req, res) => {
     res.json({ items, nextCursor });
   } catch (err) {
     console.error('[api] /clusters error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/v1/clusters/blindspot', async (req, res) => {
+  try {
+    const limit = Math.min(parseInt(req.query.limit as string) || 20, 50);
+
+    const result = await query(
+      `SELECT c.id, c.topic, c.topic_slug, c.representative_headline, c.summary,
+              c.bias_analysis, c.avg_heat_score, c.avg_substance_score,
+              c.article_count, c.source_count, c.left_count, c.center_count,
+              c.right_count, c.international_count,
+              c.first_article_at, c.last_article_at,
+              (SELECT a.image_url FROM articles a WHERE a.cluster_id = c.id AND a.image_url IS NOT NULL ORDER BY a.published_at DESC LIMIT 1) as hero_image
+       FROM clusters c
+       WHERE c.is_active = true AND c.article_count >= 2
+         AND (
+           (c.left_count + c.center_count + c.right_count + c.international_count) >= 3
+           AND (
+             c.left_count::float / GREATEST(c.left_count + c.center_count + c.right_count + c.international_count, 1) > 0.7
+             OR c.center_count::float / GREATEST(c.left_count + c.center_count + c.right_count + c.international_count, 1) > 0.7
+             OR c.right_count::float / GREATEST(c.left_count + c.center_count + c.right_count + c.international_count, 1) > 0.7
+             OR c.left_count = 0 OR c.center_count = 0 OR c.right_count = 0
+           )
+         )
+       ORDER BY c.last_article_at DESC
+       LIMIT $1`,
+      [limit]
+    );
+
+    const items = result.rows.map(formatCluster);
+    res.json({ items, total: items.length });
+  } catch (err) {
+    console.error('[api] /clusters/blindspot error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -539,6 +600,241 @@ app.post('/api/v1/admin/digest', async (_req, res) => {
   } catch (err) {
     console.error('[api] /admin/digest error:', err);
     res.status(500).json({ error: 'Digest generation failed' });
+  }
+});
+
+app.get('/api/v1/admin/sources', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const result = await query(
+      `SELECT id, name, sub_source, feed_url, bias_label, is_active, last_fetched_at, created_at
+       FROM sources ORDER BY created_at DESC`
+    );
+    res.json({ sources: result.rows, total: result.rows.length });
+  } catch (err) {
+    console.error('[api] /admin/sources error:', err);
+    res.status(500).json({ error: 'Failed to fetch sources' });
+  }
+});
+
+app.post('/api/v1/admin/sources', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const { name, feedUrl, biasLabel, subSource } = req.body;
+    if (!name || !feedUrl) {
+      return res.status(400).json({ error: 'name and feedUrl are required' });
+    }
+
+    const existing = await query('SELECT id FROM sources WHERE feed_url = $1', [feedUrl]);
+    if (existing.rows.length > 0) {
+      return res.status(409).json({ error: 'Feed URL already exists', existingId: existing.rows[0].id });
+    }
+
+    console.log(`[admin] Validating feed: ${feedUrl}`);
+    const validation = await validateFeed(feedUrl);
+    if (!validation.valid) {
+      return res.status(422).json({
+        error: 'Feed validation failed - could not parse RSS',
+        detail: validation.error,
+        url: feedUrl,
+      });
+    }
+
+    const result = await query(
+      `INSERT INTO sources (name, sub_source, feed_url, bias_label, is_active)
+       VALUES ($1, $2, $3, $4, true) RETURNING id, name, feed_url, bias_label, is_active`,
+      [name, subSource || null, feedUrl, biasLabel || 'center']
+    );
+
+    console.log(`[admin] Added source: ${name} (${feedUrl}) - ${validation.itemCount} items found`);
+    res.json({ source: result.rows[0], validation });
+  } catch (err) {
+    console.error('[api] /admin/sources POST error:', err);
+    res.status(500).json({ error: 'Failed to add source' });
+  }
+});
+
+app.post('/api/v1/admin/sources/bulk', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const { sources } = req.body;
+    if (!Array.isArray(sources) || sources.length === 0) {
+      return res.status(400).json({ error: 'sources array is required' });
+    }
+
+    const results: { name: string; url: string; status: string; error?: string; itemCount?: number }[] = [];
+    let inserted = 0;
+    let skipped = 0;
+    let failed = 0;
+
+    for (const src of sources) {
+      const { name, feedUrl, biasLabel, subSource } = src;
+      if (!name || !feedUrl) {
+        results.push({ name: name || 'unknown', url: feedUrl || '', status: 'error', error: 'Missing name or feedUrl' });
+        failed++;
+        continue;
+      }
+
+      const existing = await query('SELECT id FROM sources WHERE feed_url = $1', [feedUrl]);
+      if (existing.rows.length > 0) {
+        results.push({ name, url: feedUrl, status: 'skipped', error: 'Already exists' });
+        skipped++;
+        continue;
+      }
+
+      const validation = await validateFeed(feedUrl);
+      if (!validation.valid) {
+        results.push({ name, url: feedUrl, status: 'failed', error: validation.error || 'Invalid feed' });
+        failed++;
+        continue;
+      }
+
+      await query(
+        `INSERT INTO sources (name, sub_source, feed_url, bias_label, is_active)
+         VALUES ($1, $2, $3, $4, true) ON CONFLICT (feed_url) DO NOTHING`,
+        [name, subSource || null, feedUrl, biasLabel || 'center']
+      );
+
+      results.push({ name, url: feedUrl, status: 'inserted', itemCount: validation.itemCount });
+      inserted++;
+    }
+
+    console.log(`[admin] Bulk import: ${inserted} inserted, ${skipped} skipped, ${failed} failed`);
+    res.json({ inserted, skipped, failed, total: sources.length, results });
+  } catch (err) {
+    console.error('[api] /admin/sources/bulk error:', err);
+    res.status(500).json({ error: 'Bulk import failed' });
+  }
+});
+
+app.post('/api/v1/admin/sources/import-file', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const { filePath, biasMap } = req.body;
+    if (!filePath) {
+      return res.status(400).json({ error: 'filePath is required' });
+    }
+
+    let data: Array<{ fields: { source: string; sub_source: string; url: string; active: boolean } }>;
+    try {
+      const raw = readFileSync(filePath, 'utf-8');
+      data = JSON.parse(raw);
+    } catch (err) {
+      return res.status(400).json({ error: 'Could not read file', detail: (err as Error).message });
+    }
+
+    const biasLookup: Record<string, string> = biasMap || {};
+    const results: { name: string; url: string; status: string; error?: string; itemCount?: number }[] = [];
+    let inserted = 0;
+    let skipped = 0;
+    let failed = 0;
+
+    for (const entry of data) {
+      const { source, sub_source, url } = entry.fields;
+      const displayName = source.charAt(0).toUpperCase() + source.slice(1);
+
+      const existing = await query('SELECT id FROM sources WHERE feed_url = $1', [url]);
+      if (existing.rows.length > 0) {
+        results.push({ name: displayName, url, status: 'skipped', error: 'Already exists' });
+        skipped++;
+        continue;
+      }
+
+      const validation = await validateFeed(url);
+      if (!validation.valid) {
+        results.push({ name: displayName, url, status: 'failed', error: validation.error || 'Invalid feed' });
+        failed++;
+        continue;
+      }
+
+      const bias = biasLookup[source.toLowerCase()] || 'international';
+
+      await query(
+        `INSERT INTO sources (name, sub_source, feed_url, bias_label, is_active)
+         VALUES ($1, $2, $3, $4, true) ON CONFLICT (feed_url) DO NOTHING`,
+        [displayName, sub_source, url, bias]
+      );
+
+      results.push({ name: displayName, url, status: 'inserted', itemCount: validation.itemCount });
+      inserted++;
+    }
+
+    console.log(`[admin] File import from ${filePath}: ${inserted} inserted, ${skipped} skipped, ${failed} failed`);
+    res.json({ inserted, skipped, failed, total: data.length, results });
+  } catch (err) {
+    console.error('[api] /admin/sources/import-file error:', err);
+    res.status(500).json({ error: 'File import failed' });
+  }
+});
+
+app.patch('/api/v1/admin/sources/:id', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const { id } = req.params;
+    const { name, biasLabel, isActive } = req.body;
+
+    const updates: string[] = [];
+    const values: unknown[] = [];
+    let paramIdx = 1;
+
+    if (name !== undefined) { updates.push(`name = $${paramIdx++}`); values.push(name); }
+    if (biasLabel !== undefined) { updates.push(`bias_label = $${paramIdx++}`); values.push(biasLabel); }
+    if (isActive !== undefined) { updates.push(`is_active = $${paramIdx++}`); values.push(isActive); }
+
+    if (updates.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+
+    updates.push(`updated_at = NOW()`);
+    values.push(id);
+
+    const result = await query(
+      `UPDATE sources SET ${updates.join(', ')} WHERE id = $${paramIdx} RETURNING *`,
+      values
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Source not found' });
+    }
+
+    res.json({ source: result.rows[0] });
+  } catch (err) {
+    console.error('[api] /admin/sources/:id PATCH error:', err);
+    res.status(500).json({ error: 'Failed to update source' });
+  }
+});
+
+app.delete('/api/v1/admin/sources/:id', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const { id } = req.params;
+    const result = await query('DELETE FROM sources WHERE id = $1 RETURNING id, name', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Source not found' });
+    }
+    res.json({ deleted: true, source: result.rows[0] });
+  } catch (err) {
+    console.error('[api] /admin/sources/:id DELETE error:', err);
+    res.status(500).json({ error: 'Failed to delete source' });
+  }
+});
+
+app.post('/api/v1/admin/sources/validate', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const { feedUrl } = req.body;
+    if (!feedUrl) return res.status(400).json({ error: 'feedUrl is required' });
+    const validation = await validateFeed(feedUrl);
+    res.json(validation);
+  } catch (err) {
+    res.status(500).json({ error: 'Validation failed' });
   }
 });
 
