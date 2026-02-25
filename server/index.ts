@@ -10,7 +10,7 @@ import { query } from './db.js';
 import { initSchema } from './schema.js';
 import { seedSources } from './seed-sources.js';
 import { syncAllFeeds, enrichClustersWithAI, generateDailyDigest } from './services/pipeline.js';
-import { isAIAvailable } from './services/cloudflare-ai.js';
+import { isAIAvailable, chat } from './services/cloudflare-ai.js';
 import { validateFeed } from './services/feed-validator.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -846,6 +846,207 @@ app.post('/api/v1/admin/sources/validate', async (req, res) => {
     res.json(validation);
   } catch (err) {
     res.status(500).json({ error: 'Validation failed' });
+  }
+});
+
+app.post('/api/v1/admin/sources/analyze', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const { feedUrl } = req.body;
+    if (!feedUrl) return res.status(400).json({ error: 'feedUrl is required' });
+
+    const validation = await validateFeed(feedUrl);
+    if (!validation.valid) {
+      return res.json({ valid: false, error: validation.error });
+    }
+
+    let aiAnalysis = null;
+    if (isAIAvailable() && validation.sampleHeadlines && validation.sampleHeadlines.length > 0) {
+      try {
+        const headlines = validation.sampleHeadlines.slice(0, 8).join('\n- ');
+        const prompt = `Analyze this RSS news feed. Feed title: "${validation.title}". Sample headlines:\n- ${headlines}\n\nRespond ONLY with valid JSON (no markdown):\n{"suggestedName":"short source name","summary":"1 sentence describing what this source covers","biasLabel":"one of: left, center-left, center, center-right, right, international","biasReasoning":"1 sentence explaining the bias assessment","contentType":"news, opinion, analysis, or mixed","region":"geographic focus e.g. US, UK, Global, etc"}`;
+        const response = await chat(prompt, 'You analyze news sources and output only valid JSON. Be objective about political bias based on editorial patterns.');
+        const jsonMatch = response.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          aiAnalysis = JSON.parse(jsonMatch[0]);
+        }
+      } catch (aiErr) {
+        console.error('[admin] AI analysis failed:', aiErr);
+      }
+    }
+
+    const existing = await query('SELECT id FROM sources WHERE feed_url = $1', [feedUrl]);
+
+    res.json({
+      valid: true,
+      feedTitle: validation.title,
+      itemCount: validation.itemCount,
+      sampleHeadlines: validation.sampleHeadlines || [],
+      alreadyExists: existing.rows.length > 0,
+      existingId: existing.rows[0]?.id || null,
+      aiAnalysis,
+    });
+  } catch (err) {
+    console.error('[api] /admin/sources/analyze error:', err);
+    res.status(500).json({ error: 'Analysis failed' });
+  }
+});
+
+app.post('/api/v1/admin/sources/smart-bulk', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  function sendEvent(data: Record<string, unknown>) {
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
+  }
+
+  try {
+    const { sources } = req.body;
+    if (!Array.isArray(sources) || sources.length === 0) {
+      sendEvent({ type: 'error', message: 'sources array is required' });
+      res.end();
+      return;
+    }
+
+    sendEvent({ type: 'start', total: sources.length, message: `Processing ${sources.length} sources...` });
+
+    let inserted = 0;
+    let skipped = 0;
+    let failed = 0;
+
+    for (let i = 0; i < sources.length; i++) {
+      const src = sources[i];
+      const { name, feedUrl, biasLabel, subSource } = src;
+      const idx = i + 1;
+
+      if (!feedUrl) {
+        sendEvent({ type: 'result', index: idx, name: name || 'Unknown', status: 'failed', error: 'Missing feedUrl' });
+        failed++;
+        continue;
+      }
+
+      sendEvent({ type: 'progress', index: idx, name: name || feedUrl, step: 'checking', message: `[${idx}/${sources.length}] Checking ${name || feedUrl}...` });
+
+      const existing = await query('SELECT id FROM sources WHERE feed_url = $1', [feedUrl]);
+      if (existing.rows.length > 0) {
+        sendEvent({ type: 'result', index: idx, name: name || feedUrl, status: 'skipped', message: 'Already exists' });
+        skipped++;
+        continue;
+      }
+
+      sendEvent({ type: 'progress', index: idx, name: name || feedUrl, step: 'validating', message: `[${idx}/${sources.length}] Validating RSS feed...` });
+
+      const validation = await validateFeed(feedUrl);
+      if (!validation.valid) {
+        sendEvent({ type: 'result', index: idx, name: name || feedUrl, status: 'failed', error: `Invalid feed: ${validation.error}` });
+        failed++;
+        continue;
+      }
+
+      let finalBias = biasLabel || 'center';
+      let finalName = name || validation.title || feedUrl;
+      let aiInfo = null;
+
+      if (isAIAvailable() && !biasLabel && validation.sampleHeadlines && validation.sampleHeadlines.length > 0) {
+        sendEvent({ type: 'progress', index: idx, name: finalName, step: 'ai-analyzing', message: `[${idx}/${sources.length}] AI analyzing bias for ${finalName}...` });
+        try {
+          const headlines = validation.sampleHeadlines.slice(0, 6).join('\n- ');
+          const prompt = `Analyze this RSS feed. Title: "${validation.title}". Headlines:\n- ${headlines}\n\nRespond ONLY with JSON: {"biasLabel":"left|center-left|center|center-right|right|international","suggestedName":"short name","reasoning":"1 sentence"}`;
+          const response = await chat(prompt, 'Output only valid JSON.');
+          const jsonMatch = response.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            aiInfo = JSON.parse(jsonMatch[0]);
+            if (aiInfo.biasLabel) finalBias = aiInfo.biasLabel;
+            if (aiInfo.suggestedName && !name) finalName = aiInfo.suggestedName;
+          }
+        } catch {
+          // AI failed, use defaults
+        }
+      }
+
+      sendEvent({ type: 'progress', index: idx, name: finalName, step: 'inserting', message: `[${idx}/${sources.length}] Inserting ${finalName} (${finalBias})...` });
+
+      try {
+        await query(
+          `INSERT INTO sources (name, sub_source, feed_url, bias_label, is_active) VALUES ($1, $2, $3, $4, true)`,
+          [finalName, subSource || null, feedUrl, finalBias]
+        );
+        sendEvent({
+          type: 'result', index: idx, name: finalName, status: 'inserted',
+          bias: finalBias, itemCount: validation.itemCount,
+          aiReasoning: aiInfo?.reasoning || null,
+          message: `Added ${finalName} (${finalBias}, ${validation.itemCount} items)`
+        });
+        inserted++;
+      } catch (insertErr) {
+        sendEvent({ type: 'result', index: idx, name: finalName, status: 'failed', error: 'Database insert failed' });
+        failed++;
+      }
+    }
+
+    sendEvent({ type: 'complete', inserted, skipped, failed, total: sources.length, message: `Done: ${inserted} added, ${skipped} skipped, ${failed} failed` });
+    res.end();
+  } catch (err) {
+    console.error('[api] /admin/sources/smart-bulk error:', err);
+    sendEvent({ type: 'error', message: 'Bulk import failed' });
+    res.end();
+  }
+});
+
+app.get('/api/v1/admin/pipeline-status', async (req, res) => {
+  const adminId = await requireAdmin(req, res);
+  if (!adminId) return;
+  try {
+    const [
+      sourcesResult,
+      articlesResult,
+      clustersResult,
+      articles24hResult,
+      digestResult,
+      lastFetchResult,
+    ] = await Promise.all([
+      query('SELECT COUNT(*) as count FROM sources WHERE is_active = true'),
+      query('SELECT COUNT(*) as count FROM articles'),
+      query('SELECT COUNT(*) as count FROM clusters WHERE last_article_at > NOW() - INTERVAL \'7 days\''),
+      query('SELECT COUNT(*) as count FROM articles WHERE fetched_at > NOW() - INTERVAL \'24 hours\''),
+      query('SELECT digest_date, created_at FROM daily_digests ORDER BY created_at DESC LIMIT 1'),
+      query('SELECT MAX(last_fetched_at) as last_fetch FROM sources'),
+    ]);
+
+    const now = new Date();
+    const currentMinute = now.getMinutes();
+    const nextSyncMinutes = currentMinute < 30 ? 30 - currentMinute : 60 - currentMinute;
+    const nextSync = new Date(now.getTime() + nextSyncMinutes * 60000);
+
+    const nextDigest = new Date(now);
+    nextDigest.setUTCHours(6, 0, 0, 0);
+    if (nextDigest <= now) nextDigest.setDate(nextDigest.getDate() + 1);
+
+    res.json({
+      activeSources: parseInt(sourcesResult.rows[0].count),
+      totalArticles: parseInt(articlesResult.rows[0].count),
+      activeClusters: parseInt(clustersResult.rows[0].count),
+      articlesLast24h: parseInt(articles24hResult.rows[0].count),
+      aiAvailable: isAIAvailable(),
+      lastDigest: digestResult.rows[0] ? {
+        date: digestResult.rows[0].digest_date,
+        createdAt: digestResult.rows[0].created_at,
+      } : null,
+      lastFetchAt: lastFetchResult.rows[0]?.last_fetch || null,
+      schedules: {
+        feedSync: { interval: 'Every 30 minutes', nextRun: nextSync.toISOString() },
+        dailyDigest: { interval: 'Daily at 6:00 AM UTC', nextRun: nextDigest.toISOString() },
+      },
+    });
+  } catch (err) {
+    console.error('[api] /admin/pipeline-status error:', err);
+    res.status(500).json({ error: 'Failed to get pipeline status' });
   }
 });
 

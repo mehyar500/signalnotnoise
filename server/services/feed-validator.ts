@@ -13,16 +13,23 @@ export interface FeedValidationResult {
   itemCount: number;
   title: string | null;
   error: string | null;
+  sampleHeadlines?: string[];
 }
 
 export async function validateFeed(url: string): Promise<FeedValidationResult> {
   try {
     const feed = await parser.parseURL(url);
+    const sampleHeadlines = (feed.items || [])
+      .slice(0, 10)
+      .map(item => item.title || '')
+      .filter(Boolean);
+
     return {
       valid: true,
       itemCount: feed.items?.length || 0,
       title: feed.title || null,
       error: null,
+      sampleHeadlines,
     };
   } catch (err) {
     return {
