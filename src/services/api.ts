@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { MOCK_CLUSTERS, MOCK_DIGEST } from './mockData';
 import type { Cluster, DailyDigest } from '@/types';
 
 interface GetClustersResponse {
@@ -7,40 +6,60 @@ interface GetClustersResponse {
   nextCursor: string | null;
 }
 
-const ITEMS_PER_PAGE = 5;
-
-function getClusters(cursor?: string): GetClustersResponse {
-  const startIndex = cursor ? MOCK_CLUSTERS.findIndex(c => c.id === cursor) + 1 : 0;
-  const items = MOCK_CLUSTERS.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-  const nextCursor =
-    startIndex + ITEMS_PER_PAGE < MOCK_CLUSTERS.length
-      ? (items[items.length - 1]?.id ?? null)
-      : null;
-  return { items, nextCursor };
+interface Stats {
+  activeSources: number;
+  totalArticles: number;
+  activeClusters: number;
+  articlesLast24h: number;
+  aiAvailable: boolean;
 }
 
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: '/' }),
+  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+  tagTypes: ['Clusters', 'Digest', 'Stats'],
   endpoints: (builder) => ({
-    getClusters: builder.query<GetClustersResponse, { cursor?: string }>({
-      queryFn: ({ cursor }) => {
-        return { data: getClusters(cursor) };
+    getClusters: builder.query<GetClustersResponse, { cursor?: string; limit?: number }>({
+      query: ({ cursor, limit = 20 }) => {
+        const params = new URLSearchParams();
+        params.set('limit', String(limit));
+        if (cursor) params.set('cursor', cursor);
+        return `clusters?${params}`;
       },
+      providesTags: ['Clusters'],
     }),
     getClusterDetail: builder.query<Cluster, string>({
-      queryFn: (id) => {
-        const cluster = MOCK_CLUSTERS.find(c => c.id === id);
-        if (!cluster) return { error: { status: 404, error: 'Not found' } as const };
-        return { data: cluster };
-      },
+      query: (id) => `clusters/${id}`,
     }),
-    getDigest: builder.query<DailyDigest, void>({
-      queryFn: () => {
-        return { data: MOCK_DIGEST };
-      },
+    getDigest: builder.query<DailyDigest | null, void>({
+      query: () => 'digest',
+      providesTags: ['Digest'],
+    }),
+    getStats: builder.query<Stats, void>({
+      query: () => 'stats',
+      providesTags: ['Stats'],
+    }),
+    triggerSync: builder.mutation<{ fetched: number; new: number; errors: number }, void>({
+      query: () => ({ url: 'admin/sync', method: 'POST' }),
+      invalidatesTags: ['Clusters', 'Stats'],
+    }),
+    triggerEnrich: builder.mutation<{ enriched: number }, void>({
+      query: () => ({ url: 'admin/enrich', method: 'POST' }),
+      invalidatesTags: ['Clusters'],
+    }),
+    triggerDigest: builder.mutation<{ created: boolean }, void>({
+      query: () => ({ url: 'admin/digest', method: 'POST' }),
+      invalidatesTags: ['Digest'],
     }),
   }),
 });
 
-export const { useGetClustersQuery, useGetClusterDetailQuery, useGetDigestQuery } = api;
+export const {
+  useGetClustersQuery,
+  useGetClusterDetailQuery,
+  useGetDigestQuery,
+  useGetStatsQuery,
+  useTriggerSyncMutation,
+  useTriggerEnrichMutation,
+  useTriggerDigestMutation,
+} = api;
