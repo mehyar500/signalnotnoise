@@ -47,6 +47,7 @@ export async function initSchema() {
       title TEXT NOT NULL,
       description TEXT,
       link TEXT UNIQUE NOT NULL,
+      image_url TEXT,
       published_at TIMESTAMPTZ,
       heat_score REAL,
       substance_score REAL,

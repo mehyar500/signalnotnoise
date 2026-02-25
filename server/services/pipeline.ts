@@ -38,11 +38,11 @@ export async function syncAllFeeds(): Promise<{ fetched: number; new: number; er
           const validDate = isNaN(pubDate.getTime()) ? new Date() : pubDate;
 
           const artRes = await query(
-            `INSERT INTO articles (source_id, title, description, link, published_at, heat_score, substance_score, keywords)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            `INSERT INTO articles (source_id, title, description, link, image_url, published_at, heat_score, substance_score, keywords)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
              ON CONFLICT (link) DO NOTHING
              RETURNING id`,
-            [source.id, item.title, item.description, item.link, validDate.toISOString(), heat, substance, keywords]
+            [source.id, item.title, item.description, item.link, item.imageUrl, validDate.toISOString(), heat, substance, keywords]
           );
 
           if (artRes.rows.length > 0) {

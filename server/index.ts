@@ -40,7 +40,8 @@ app.get('/api/v1/clusters', async (req, res) => {
               c.bias_analysis, c.avg_heat_score, c.avg_substance_score,
               c.article_count, c.source_count, c.left_count, c.center_count,
               c.right_count, c.international_count,
-              c.first_article_at, c.last_article_at
+              c.first_article_at, c.last_article_at,
+              (SELECT a.image_url FROM articles a WHERE a.cluster_id = c.id AND a.image_url IS NOT NULL ORDER BY a.published_at DESC LIMIT 1) as hero_image
        FROM clusters c
        ${whereClause}
        ORDER BY c.last_article_at DESC
@@ -65,7 +66,8 @@ app.get('/api/v1/clusters/:id', async (req, res) => {
               c.bias_analysis, c.avg_heat_score, c.avg_substance_score,
               c.article_count, c.source_count, c.left_count, c.center_count,
               c.right_count, c.international_count,
-              c.first_article_at, c.last_article_at
+              c.first_article_at, c.last_article_at,
+              (SELECT a.image_url FROM articles a WHERE a.cluster_id = c.id AND a.image_url IS NOT NULL ORDER BY a.published_at DESC LIMIT 1) as hero_image
        FROM clusters c
        WHERE c.id = $1`,
       [req.params.id]
@@ -76,7 +78,7 @@ app.get('/api/v1/clusters/:id', async (req, res) => {
     }
 
     const articlesRes = await query(
-      `SELECT a.id, a.title, a.description, a.link, a.published_at,
+      `SELECT a.id, a.title, a.description, a.link, a.image_url, a.published_at,
               a.heat_score, a.substance_score,
               s.name as source_name, s.bias_label
        FROM articles a
@@ -92,6 +94,7 @@ app.get('/api/v1/clusters/:id', async (req, res) => {
       title: a.title,
       description: a.description,
       link: a.link,
+      imageUrl: a.image_url || null,
       publishedAt: a.published_at,
       sourceName: a.source_name,
       biasLabel: a.bias_label,
@@ -414,6 +417,7 @@ function formatCluster(row: Record<string, unknown>) {
       right: (row.right_count as number) || 0,
       international: (row.international_count as number) || 0,
     },
+    heroImage: (row.hero_image as string) || null,
     firstArticleAt: row.first_article_at as string,
     lastArticleAt: row.last_article_at as string,
     articles: [] as Record<string, unknown>[],

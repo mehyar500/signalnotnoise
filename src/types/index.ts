@@ -10,6 +10,7 @@ export interface Article {
   title: string;
   description: string;
   link: string;
+  imageUrl: string | null;
   publishedAt: string;
   sourceName: string;
   biasLabel: 'left' | 'center-left' | 'center' | 'center-right' | 'right' | 'international';

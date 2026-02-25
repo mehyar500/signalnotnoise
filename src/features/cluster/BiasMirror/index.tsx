@@ -33,18 +33,33 @@ function ArticleItem({ article }: { article: Article }) {
           <ExternalLink size={10} className="text-white/20 group-hover/article:text-indigo-400/60 transition-colors" />
         </div>
       </div>
-      <p className="text-sm text-white/80 font-medium leading-snug mb-1.5">{article.title}</p>
-      <p className="text-xs text-white/40 line-clamp-2 leading-relaxed">{article.description}</p>
-      {(heatPct > 0 || substancePct > 0) && (
-        <div className="flex items-center gap-3 mt-2">
-          <span className="flex items-center gap-1 text-[10px] text-orange-400/50">
-            <Flame size={8} /> {heatPct}%
-          </span>
-          <span className="flex items-center gap-1 text-[10px] text-cyan-400/50">
-            <Beaker size={8} /> {substancePct}%
-          </span>
+      <div className="flex gap-3">
+        <div className="flex-1 min-w-0">
+          <p className="text-sm text-white/80 font-medium leading-snug mb-1.5">{article.title}</p>
+          <p className="text-xs text-white/40 line-clamp-2 leading-relaxed">{article.description}</p>
+          {(heatPct > 0 || substancePct > 0) && (
+            <div className="flex items-center gap-3 mt-2">
+              <span className="flex items-center gap-1 text-[10px] text-orange-400/50">
+                <Flame size={8} /> {heatPct}%
+              </span>
+              <span className="flex items-center gap-1 text-[10px] text-cyan-400/50">
+                <Beaker size={8} /> {substancePct}%
+              </span>
+            </div>
+          )}
         </div>
-      )}
+        {article.imageUrl && (
+          <div className="shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden bg-white/[0.03]">
+            <img
+              src={article.imageUrl}
+              alt=""
+              className="w-full h-full object-cover"
+              loading="lazy"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+          </div>
+        )}
+      </div>
     </a>
   );
 }
