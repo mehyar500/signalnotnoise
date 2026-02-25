@@ -1,0 +1,782 @@
+[
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067906,
+    "fields": {
+      "source": "al jazeera english",
+      "sub_source": "aljazeera_all",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067907,
+    "fields": {
+      "source": "al jazeera english world",
+      "sub_source": "aljazeera_world",
+      "url": "https://www.aljazeera.com/xml/rss/world.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067908,
+    "fields": {
+      "source": "deutsche welle dw top stories",
+      "sub_source": "dw_top",
+      "url": "https://rss.dw.com/xml/rss-en-top",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067909,
+    "fields": {
+      "source": "deutsche welle dw world",
+      "sub_source": "dw_world",
+      "url": "https://rss.dw.com/xml/rss-en-world",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067910,
+    "fields": {
+      "source": "france 24 en",
+      "sub_source": "france24_en",
+      "url": "https://www.france24.com/en/rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067911,
+    "fields": {
+      "source": "france 24 en africa",
+      "sub_source": "france24_africa",
+      "url": "https://www.france24.com/en/africa/rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067912,
+    "fields": {
+      "source": "nikkei asia",
+      "sub_source": "nikkei_asia",
+      "url": "https://asia.nikkei.com/rss/feed/nar",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067913,
+    "fields": {
+      "source": "south china morning post",
+      "sub_source": "scmp",
+      "url": "https://www.scmp.com/rss/91/feed",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067914,
+    "fields": {
+      "source": "the hindu national",
+      "sub_source": "the_hindu_national",
+      "url": "https://www.thehindu.com/news/national/feeder/default.rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067915,
+    "fields": {
+      "source": "times of india top stories",
+      "sub_source": "toi_top",
+      "url": "https://timesofindia.indiatimes.com/rssfeeds/-2128936835.cms",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067916,
+    "fields": {
+      "source": "haaretz",
+      "sub_source": "haaretz",
+      "url": "https://www.haaretz.com/cmlink/1.628752",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067917,
+    "fields": {
+      "source": "the jerusalem post",
+      "sub_source": "jpost",
+      "url": "https://www.jpost.com/rss/rssfeedsfrontpage.aspx",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067918,
+    "fields": {
+      "source": "businesslive business day",
+      "sub_source": "businesslive",
+      "url": "https://www.businesslive.co.za/rss/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067919,
+    "fields": {
+      "source": "folha de s paulo em cima da hora",
+      "sub_source": "folha_ultimas",
+      "url": "https://feeds.folha.uol.com.br/emcimadahora/rss091.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067920,
+    "fields": {
+      "source": "el pa s english",
+      "sub_source": "elpais_en",
+      "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/english.elpais.com/portada",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067921,
+    "fields": {
+      "source": "foreign policy",
+      "sub_source": "foreignpolicy",
+      "url": "https://foreignpolicy.com/feed/",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067922,
+    "fields": {
+      "source": "the diplomat",
+      "sub_source": "thediplomat",
+      "url": "https://thediplomat.com/feed/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067923,
+    "fields": {
+      "source": "war on the rocks",
+      "sub_source": "warontherocks",
+      "url": "https://warontherocks.com/feed/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067924,
+    "fields": {
+      "source": "lawfare",
+      "sub_source": "lawfare",
+      "url": "https://www.lawfaremedia.org/rss.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067925,
+    "fields": {
+      "source": "brookings",
+      "sub_source": "brookings",
+      "url": "https://www.brookings.edu/feed/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067926,
+    "fields": {
+      "source": "council on foreign relations",
+      "sub_source": "cfr",
+      "url": "https://www.cfr.org/rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067927,
+    "fields": {
+      "source": "csis",
+      "sub_source": "csis",
+      "url": "https://www.csis.org/rss.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067928,
+    "fields": {
+      "source": "rand",
+      "sub_source": "rand",
+      "url": "https://www.rand.org/topics/rss.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067929,
+    "fields": {
+      "source": "chatham house",
+      "sub_source": "chathamhouse",
+      "url": "https://www.chathamhouse.org/rss.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067930,
+    "fields": {
+      "source": "reuters business news",
+      "sub_source": "reuters_business",
+      "url": "https://feeds.reuters.com/reuters/businessNews",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067931,
+    "fields": {
+      "source": "reuters world news",
+      "sub_source": "reuters_world",
+      "url": "https://feeds.reuters.com/Reuters/worldNews",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067932,
+    "fields": {
+      "source": "the economist",
+      "sub_source": "economist",
+      "url": "https://www.economist.com/rss.xml",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067933,
+    "fields": {
+      "source": "investing com news",
+      "sub_source": "investing_news",
+      "url": "https://www.investing.com/rss/news.rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067934,
+    "fields": {
+      "source": "seeking alpha",
+      "sub_source": "seekingalpha",
+      "url": "https://seekingalpha.com/feed.xml",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067935,
+    "fields": {
+      "source": "zero hedge",
+      "sub_source": "zerohedge",
+      "url": "https://feeds.feedburner.com/zerohedge/feed",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067936,
+    "fields": {
+      "source": "nature",
+      "sub_source": "nature",
+      "url": "https://www.nature.com/nature.rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067937,
+    "fields": {
+      "source": "science magazine",
+      "sub_source": "science_mag",
+      "url": "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067938,
+    "fields": {
+      "source": "new scientist",
+      "sub_source": "newscientist",
+      "url": "https://www.newscientist.com/feed/home/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067939,
+    "fields": {
+      "source": "world health organization news",
+      "sub_source": "who_news",
+      "url": "https://www.who.int/rss-feeds/news-english.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067940,
+    "fields": {
+      "source": "cdc newsroom",
+      "sub_source": "cdc_newsroom",
+      "url": "https://tools.cdc.gov/api/v2/resources/media/403372.rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067941,
+    "fields": {
+      "source": "climate home news",
+      "sub_source": "climatehomenews",
+      "url": "https://www.climatechangenews.com/feed/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067942,
+    "fields": {
+      "source": "mit technology review",
+      "sub_source": "mit_techreview",
+      "url": "https://www.technologyreview.com/feed/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067943,
+    "fields": {
+      "source": "venturebeat",
+      "sub_source": "venturebeat",
+      "url": "https://venturebeat.com/feed/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067944,
+    "fields": {
+      "source": "ars technica",
+      "sub_source": "arstechnica",
+      "url": "https://feeds.arstechnica.com/arstechnica/index",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067945,
+    "fields": {
+      "source": "the register",
+      "sub_source": "theregister",
+      "url": "https://www.theregister.com/headlines.atom",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067946,
+    "fields": {
+      "source": "openai blog",
+      "sub_source": "openai_blog",
+      "url": "https://openai.com/blog/rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067947,
+    "fields": {
+      "source": "anthropic",
+      "sub_source": "anthropic_blog",
+      "url": "https://www.anthropic.com/index.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067948,
+    "fields": {
+      "source": "google deepmind blog",
+      "sub_source": "deepmind_blog",
+      "url": "https://deepmind.google/blog/rss.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067949,
+    "fields": {
+      "source": "hugging face blog",
+      "sub_source": "hf_blog",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067950,
+    "fields": {
+      "source": "coindesk",
+      "sub_source": "coindesk",
+      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067951,
+    "fields": {
+      "source": "cointelegraph",
+      "sub_source": "cointelegraph",
+      "url": "https://cointelegraph.com/rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067952,
+    "fields": {
+      "source": "the block",
+      "sub_source": "theblock",
+      "url": "https://www.theblock.co/rss.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067953,
+    "fields": {
+      "source": "white house briefing room",
+      "sub_source": "whitehouse_briefing",
+      "url": "https://www.whitehouse.gov/briefing-room/feed/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067954,
+    "fields": {
+      "source": "u s supreme court slip opinions",
+      "sub_source": "scotus_opinions",
+      "url": "https://www.supremecourt.gov/feeds/slipopinions.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067955,
+    "fields": {
+      "source": "sec press releases",
+      "sub_source": "sec_press",
+      "url": "https://www.sec.gov/rss/news/press.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067956,
+    "fields": {
+      "source": "federal reserve press releases",
+      "sub_source": "fed_press",
+      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067957,
+    "fields": {
+      "source": "u s department of justice press releases",
+      "sub_source": "doj_press",
+      "url": "https://www.justice.gov/feeds/press-release.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067958,
+    "fields": {
+      "source": "u s department of defense news",
+      "sub_source": "dod_news",
+      "url": "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=1&Site=945&max=20",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067959,
+    "fields": {
+      "source": "semafor",
+      "sub_source": "semafor",
+      "url": "https://www.semafor.com/rss.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067960,
+    "fields": {
+      "source": "axios",
+      "sub_source": "axios",
+      "url": "https://www.axios.com/rss",
+      "active": true,
+      "skip_content_scrape": true,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067961,
+    "fields": {
+      "source": "propublica",
+      "sub_source": "propublica",
+      "url": "https://www.propublica.org/feeds/propublica/main",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067962,
+    "fields": {
+      "source": "the intercept",
+      "sub_source": "intercept",
+      "url": "https://theintercept.com/feed/?rss",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067963,
+    "fields": {
+      "source": "rest of world",
+      "sub_source": "restofworld",
+      "url": "https://restofworld.org/feed/latest/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067964,
+    "fields": {
+      "source": "fivethirtyeight",
+      "sub_source": "fivethirtyeight",
+      "url": "https://fivethirtyeight.com/feed/",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  },
+  {
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067965,
+    "fields": {
+      "source": "our world in data",
+      "sub_source": "ourworldindata",
+      "url": "https://ourworldindata.org/feed.xml",
+      "active": true,
+      "skip_content_scrape": false,
+      "last_updated": "2026-02-25T16:14:15.951Z",
+      "last_pull": null
+    }
+  }
+]
