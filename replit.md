@@ -1,57 +1,85 @@
 # Axial.news
 
-A news aggregation web application that compresses the world into distinct stories, shows consensus and disagreements, and provides a daily moment of clarity.
+A news aggregation platform that ingests 153 RSS feeds from 16 sources, clusters articles into stories using TF-IDF cosine similarity, shows left/center/right bias framing, heat vs. substance scores, and generates a daily digest. AI enrichment uses Cloudflare Workers AI.
 
 ## Architecture
 
-**Frontend-only React SPA** (the backend is designed for Cloudflare Workers — not yet implemented).
+**Full-stack app**: React SPA frontend + Express.js API backend + PostgreSQL database.
 
 ### Tech Stack
-- **Framework**: React 18 + Vite 7 (SWC compiler)
-- **Language**: TypeScript
+- **Frontend**: React 18 + Vite 7 (SWC) + TypeScript
 - **State Management**: Redux Toolkit + RTK Query
 - **Styling**: Tailwind CSS v4
-- **Icons**: Lucide React
-- **Routing**: React Router DOM v6
+- **Backend**: Express.js (TypeScript via tsx)
+- **Database**: PostgreSQL (Replit-managed)
+- **AI**: Cloudflare Workers AI (free tier) for cluster summaries & bias analysis
+- **RSS**: rss-parser for feed ingestion
+- **Clustering**: TF-IDF cosine similarity (custom implementation)
 
 ### Project Structure
 ```
-src/
-  app/           # Redux store, slices, typed hooks
-  components/    # Shared UI primitives (GlassCard, Badge, HeatBar)
-  features/      # Domain components
-    feed/        # ClusterCard, InfiniteFeed
-    cluster/     # BiasMirror (left/center/right framing)
-    digest/      # DigestPlayer (One-Minute World modal)
-  layouts/       # AppLayout (header + nav)
-  pages/         # Home, ClusterDetail, Research
-  services/      # RTK Query API slice + mock data
-  hooks/         # useTimeAgo
-  types/         # TypeScript interfaces
+src/                    # Frontend (React SPA)
+  app/                  # Redux store, slices, typed hooks
+  components/           # Shared UI primitives (GlassCard, Badge, HeatBar)
+  features/             # Domain components
+    feed/               # ClusterCard, InfiniteFeed
+    cluster/            # BiasMirror (left/center/right framing)
+    digest/             # DigestPlayer (One-Minute World modal)
+  layouts/              # AppLayout (header + nav)
+  pages/                # Home, ClusterDetail, Research
+  services/             # RTK Query API slice
+  hooks/                # useTimeAgo
+  types/                # TypeScript interfaces
+
+server/                 # Backend (Express.js API)
+  index.ts              # Express server, routes, startup
+  db.ts                 # PostgreSQL connection pool
+  schema.ts             # Database schema initialization
+  seed-sources.ts       # 153 RSS feed sources with bias labels
+  services/
+    rss-fetcher.ts      # RSS feed parsing & article extraction
+    clustering.ts       # TF-IDF cosine similarity clustering
+    scorer.ts           # Heat & substance scoring
+    pipeline.ts         # Orchestrates sync, clustering, AI enrichment
+    cloudflare-ai.ts    # Cloudflare Workers AI integration
+    digest.ts           # Daily digest generation
 ```
+
+### Database Schema
+- **sources**: 153 RSS feeds with name, url, bias label, category
+- **articles**: Ingested articles with title, content, source, cluster assignment
+- **clusters**: Grouped stories with topic, summary, bias analysis, scores
+- **daily_digests**: Generated daily summaries
+- **users, collections, bookmarks**: User features (future)
 
 ## Core Concept
 
 The product primitive is a **Cluster** — a group of articles from different sources covering the same story. Each cluster includes:
-- Representative headline and summary
-- Source count by political bias (left/center/right)
-- Bias Mirror: how each perspective frames the story
+- Representative headline and AI-generated summary
+- Source count by political bias (left/center/right/international)
+- Bias Mirror: AI analysis of how each perspective frames the story
 - Heat vs Substance scores (emotional language vs. specificity)
 
 ## Running
 
 ```bash
-npm run dev   # Development server on port 5000
-npm run build # Production build to dist/
+npm run dev   # Starts both backend (port 3001) and frontend (port 5000)
 ```
 
-## Current State
+- Frontend: Vite dev server on port 5000
+- Backend: Express API on port 3001
+- Vite proxies `/api` requests to the backend
 
-The frontend uses **mock data** (10 pre-built story clusters) to demonstrate the full product experience. The backend (Cloudflare Workers + D1 + RSS ingestion + Workers AI embeddings) is defined in `axialnews-api.md` and `Axial.news.md` but not yet implemented.
+## Environment Variables
 
-## Deployment
+- `DATABASE_URL` — PostgreSQL connection string (auto-configured by Replit)
+- `CLOUDFLARE_ACCOUNT_ID` — Cloudflare account ID for Workers AI
+- `CLOUDFLARE_API_TOKEN` — Cloudflare API token with Workers AI permission
 
-Configured as a **static site** deployment (builds via `npm run build`, serves `dist/`).
+## Cron Jobs
+
+- **Feed sync**: Every 30 minutes — fetches all RSS feeds, clusters articles, runs AI enrichment
+- **Daily digest**: Every day at 6am UTC
 
 ## Design System
 
