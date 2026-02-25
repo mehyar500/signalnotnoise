@@ -1,0 +1,1991 @@
+[
+{
+    "model": "feeds.feedsource",
+    "pk": 1006369455427911681,
+    "fields": {
+        "source": "bbc",
+        "sub_source": "uk",
+        "url": "http://feeds.bbci.co.uk/news/rss.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T14:59:44.781Z",
+        "last_pull": "2024-10-11T00:00:29.930Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006369455504687105,
+    "fields": {
+        "source": "bbc",
+        "sub_source": "world",
+        "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T14:59:44.805Z",
+        "last_pull": "2024-10-11T00:00:48.075Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006369455566618625,
+    "fields": {
+        "source": "bbc",
+        "sub_source": "health",
+        "url": "https://feeds.bbci.co.uk/news/health/rss.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T14:59:44.824Z",
+        "last_pull": "2024-10-11T00:00:54.696Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006369455627894785,
+    "fields": {
+        "source": "bbc",
+        "sub_source": "business",
+        "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T14:59:44.843Z",
+        "last_pull": "2024-10-11T00:01:06.936Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006369455693627393,
+    "fields": {
+        "source": "bbc",
+        "sub_source": "technology",
+        "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T14:59:44.863Z",
+        "last_pull": "2024-10-11T00:01:15.470Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006369455766339585,
+    "fields": {
+        "source": "bbc",
+        "sub_source": "science",
+        "url": "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml?edition=uk",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T14:59:44.884Z",
+        "last_pull": "2024-10-11T00:01:20.058Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370087900774401,
+    "fields": {
+        "source": "bloomberg",
+        "sub_source": "markets",
+        "url": "https://feeds.bloomberg.com/markets/news.rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:02:57.795Z",
+        "last_pull": "2024-10-11T00:01:38.677Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370087989673985,
+    "fields": {
+        "source": "bloomberg",
+        "sub_source": "politics",
+        "url": "https://feeds.bloomberg.com/politics/news.rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:02:57.822Z",
+        "last_pull": "2024-10-11T00:01:55.277Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370088082702337,
+    "fields": {
+        "source": "bloomberg",
+        "sub_source": "business",
+        "url": "https://feeds.bloomberg.com/business/news.rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:02:57.847Z",
+        "last_pull": "2024-10-11T00:02:11.141Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370088168194049,
+    "fields": {
+        "source": "bloomberg",
+        "sub_source": "technology",
+        "url": "https://feeds.bloomberg.com/technology/news.rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:02:57.877Z",
+        "last_pull": "2024-10-11T00:02:26.128Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370088248377345,
+    "fields": {
+        "source": "bloomberg",
+        "sub_source": "wealth",
+        "url": "https://feeds.bloomberg.com/wealth/news.rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:02:57.901Z",
+        "last_pull": "2024-10-11T00:02:30.387Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370088330690561,
+    "fields": {
+        "source": "bloomberg",
+        "sub_source": "economics",
+        "url": "https://feeds.bloomberg.com/economics/news.rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:02:57.927Z",
+        "last_pull": "2024-10-11T00:02:42.041Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370088416149505,
+    "fields": {
+        "source": "bloomberg",
+        "sub_source": "industries",
+        "url": "https://feeds.bloomberg.com/industries/news.rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:02:57.951Z",
+        "last_pull": "2024-10-11T00:02:54.334Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370088499773441,
+    "fields": {
+        "source": "bloomberg",
+        "sub_source": "green",
+        "url": "https://feeds.bloomberg.com/green/news.rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:02:57.978Z",
+        "last_pull": "2024-10-11T00:03:05.754Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370353139089409,
+    "fields": {
+        "source": "forbes",
+        "sub_source": "main",
+        "url": "https://www.forbes.com/real-time/feed2/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:04:18.740Z",
+        "last_pull": "2024-10-11T00:03:28.309Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370353273110529,
+    "fields": {
+        "source": "forbes",
+        "sub_source": "innovation",
+        "url": "https://www.forbes.com/innovation/feed2/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:04:18.776Z",
+        "last_pull": "2024-10-11T00:03:38.670Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891318067201,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "news",
+        "url": "http://feeds.nytimes.com/nyt/rss/HomePage",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:02.980Z",
+        "last_pull": "2024-10-11T00:03:49.701Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891392057345,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "world",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.002Z",
+        "last_pull": "2024-10-11T00:03:56.827Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891466801153,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "africa",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Africa.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.025Z",
+        "last_pull": "2024-10-11T00:03:56.942Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891538366465,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "americas",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Americas.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.047Z",
+        "last_pull": "2024-10-11T00:03:57.055Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891608522753,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "europe",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.068Z",
+        "last_pull": "2024-10-11T00:03:58.135Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891698241537,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "middle east",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/MiddleEast.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.092Z",
+        "last_pull": "2024-10-11T00:03:58.356Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891772493825,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "us",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.118Z",
+        "last_pull": "2024-10-11T00:04:08.790Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891845173249,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "education",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Education.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.141Z",
+        "last_pull": "2024-10-11T00:04:09.046Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370891930730497,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "politics",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.167Z",
+        "last_pull": "2024-10-11T00:04:11.985Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892007505921,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "upshot",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Upshot.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.190Z",
+        "last_pull": "2024-10-11T00:04:12.103Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892082642945,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "new york",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/NYRegion.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.213Z",
+        "last_pull": "2024-10-11T00:04:14.740Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892155879425,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "technology",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.234Z",
+        "last_pull": "2024-10-11T00:04:15.338Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892231016449,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "personal tech",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/PersonalTech.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.258Z",
+        "last_pull": "2024-10-11T00:04:15.452Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892315492353,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "sports",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.284Z",
+        "last_pull": "2024-10-11T00:04:19.743Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892444532737,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "most viewed",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/MostViewed.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.320Z",
+        "last_pull": "2024-10-11T00:04:19.852Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892526288897,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "jobs",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Jobs.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.348Z",
+        "last_pull": "2024-10-11T00:04:19.973Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892609224705,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "travel",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Travel.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.373Z",
+        "last_pull": "2024-10-11T00:04:22.040Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892688949249,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "health",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Health.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.395Z",
+        "last_pull": "2024-10-11T00:04:22.651Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892757663745,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "space",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Space.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.419Z",
+        "last_pull": "2024-10-11T00:04:23.245Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006370892827754497,
+    "fields": {
+        "source": "new york times",
+        "sub_source": "science",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T15:07:03.441Z",
+        "last_pull": "2024-10-11T00:04:23.430Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006371204315938817,
+    "fields": {
+        "source": "techcrunch",
+        "sub_source": "main",
+        "url": "http://feeds.feedburner.com/TechCrunch/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:08:38.500Z",
+        "last_pull": "2024-10-11T00:04:24.055Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006371204381933569,
+    "fields": {
+        "source": "techcrunch",
+        "sub_source": "europe",
+        "url": "http://feeds.feedburner.com/Techcrunch/europe",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:08:38.520Z",
+        "last_pull": "2024-10-11T00:04:24.755Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006371204450942977,
+    "fields": {
+        "source": "techcrunch",
+        "sub_source": "gadgets",
+        "url": "http://feeds.feedburner.com/crunchgear",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:08:38.541Z",
+        "last_pull": "2024-10-11T00:04:26.153Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006371204511432705,
+    "fields": {
+        "source": "techcrunch",
+        "sub_source": "mobile",
+        "url": "http://feeds.feedburner.com/Mobilecrunch",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:08:38.560Z",
+        "last_pull": "2024-10-11T00:04:26.994Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006371204574150657,
+    "fields": {
+        "source": "techcrunch",
+        "sub_source": "social",
+        "url": "http://feeds.feedburner.com/TechCrunch/social",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:08:38.579Z",
+        "last_pull": "2024-10-11T00:04:28.104Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625070850049,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "international",
+        "url": "https://www.theguardian.com/international/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.073Z",
+        "last_pull": "2024-10-11T00:05:11.730Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625169547265,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "uk",
+        "url": "https://www.theguardian.com/uk/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.109Z",
+        "last_pull": "2024-10-11T00:05:36.077Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625305665537,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "world",
+        "url": "https://www.theguardian.com/world/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.140Z",
+        "last_pull": "2024-10-11T00:05:45.144Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625398169601,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "business",
+        "url": "https://www.theguardian.com/uk/business/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.179Z",
+        "last_pull": "2024-10-11T00:05:49.028Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625473830913,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "football",
+        "url": "https://www.theguardian.com/football/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.202Z",
+        "last_pull": "2024-10-11T00:05:54.462Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625595662337,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "science",
+        "url": "https://www.theguardian.com/science/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.232Z",
+        "last_pull": "2024-10-11T00:05:54.645Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625669718017,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "wildlife",
+        "url": "https://www.theguardian.com/environment/wildlife/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.262Z",
+        "last_pull": "2024-10-11T00:05:55.709Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625776771073,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "climate crisis",
+        "url": "https://www.theguardian.com/environment/climate-crisis/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.295Z",
+        "last_pull": "2024-10-11T00:05:57.606Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625853480961,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "environment",
+        "url": "https://www.theguardian.com/uk/environment/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.318Z",
+        "last_pull": "2024-10-11T00:05:59.622Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372625939988481,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "inequality",
+        "url": "https://www.theguardian.com/inequality/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.344Z",
+        "last_pull": "2024-10-11T00:06:00.126Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372626021515265,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "culture",
+        "url": "https://www.theguardian.com/uk/culture/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.367Z",
+        "last_pull": "2024-10-11T00:06:08.117Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372626119000065,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "technology",
+        "url": "https://www.theguardian.com/uk/technology/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.398Z",
+        "last_pull": "2024-10-11T00:06:08.870Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372626340216833,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "life and style",
+        "url": "https://www.theguardian.com/uk/lifeandstyle/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.466Z",
+        "last_pull": "2024-10-11T00:06:14.074Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372626589351937,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "global development",
+        "url": "https://www.theguardian.com/global-development/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.518Z",
+        "last_pull": "2024-10-11T00:06:20.691Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372626701484033,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "middle east",
+        "url": "https://www.theguardian.com/world/middleeast/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.576Z",
+        "last_pull": "2024-10-11T00:06:22.069Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372626842058753,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "money",
+        "url": "https://www.theguardian.com/uk/money/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.614Z",
+        "last_pull": "2024-10-11T00:06:24.155Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372626917523457,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "australia",
+        "url": "https://www.theguardian.com/australia-news/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.643Z",
+        "last_pull": "2024-10-11T00:06:28.839Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372627010125825,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "asia",
+        "url": "https://www.theguardian.com/world/asia/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.669Z",
+        "last_pull": "2024-10-11T00:06:28.986Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372627106562049,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "americas",
+        "url": "https://www.theguardian.com/world/americas/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.700Z",
+        "last_pull": "2024-10-11T00:06:29.111Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372627243204609,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "us",
+        "url": "https://www.theguardian.com/us-news/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.736Z",
+        "last_pull": "2024-10-11T00:06:35.726Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006372627322961921,
+    "fields": {
+        "source": "the guardian",
+        "sub_source": "europe",
+        "url": "https://www.theguardian.com/world/europe-news/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T15:15:52.766Z",
+        "last_pull": "2024-10-11T00:06:38.387Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006429297335631873,
+    "fields": {
+        "source": "ycombinator",
+        "sub_source": "news",
+        "url": "https://news.ycombinator.com/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:04:07.080Z",
+        "last_pull": "2024-10-11T00:07:21.558Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006431151642345473,
+    "fields": {
+        "source": "engadget",
+        "sub_source": "technology",
+        "url": "https://www.engadget.com/rss.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:13:32.970Z",
+        "last_pull": "2024-10-11T00:07:47.184Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435196437823489,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "main",
+        "url": "https://www.theverge.com/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.338Z",
+        "last_pull": "2024-10-11T00:07:51.837Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435196533833729,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "tech",
+        "url": "https://www.theverge.com/tech/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.372Z",
+        "last_pull": "2024-10-11T00:07:51.917Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435196629975041,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "science",
+        "url": "https://www.theverge.com/science/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.401Z",
+        "last_pull": "2024-10-11T00:07:52.575Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435196729622529,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "reviews",
+        "url": "https://www.theverge.com/reviews/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.432Z",
+        "last_pull": "2024-10-11T00:07:53.378Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435196827074561,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "features",
+        "url": "https://www.theverge.com/features/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.461Z",
+        "last_pull": "2024-10-11T00:07:53.432Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435196942254081,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "video",
+        "url": "https://www.theverge.com/video/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.496Z",
+        "last_pull": "2024-10-11T00:07:53.523Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435197037740033,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "health",
+        "url": "https://www.theverge.com/rss/health/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.525Z",
+        "last_pull": "2024-10-11T00:07:53.736Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435197132898305,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "environment",
+        "url": "https://www.theverge.com/rss/environment/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.555Z",
+        "last_pull": "2024-10-11T00:07:53.935Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435197226942465,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "creators",
+        "url": "https://www.theverge.com/rss/creators/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.583Z",
+        "last_pull": "2024-10-11T00:07:54.029Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435197323542529,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "entertainment",
+        "url": "https://www.theverge.com/rss/entertainment/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.613Z",
+        "last_pull": "2024-10-11T00:07:58.050Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435197441966081,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "culture",
+        "url": "https://www.theverge.com/culture/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.649Z",
+        "last_pull": "2024-10-11T00:07:58.136Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435197533585409,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "transportation",
+        "url": "https://www.theverge.com/transportation/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.677Z",
+        "last_pull": "2024-10-11T00:07:59.868Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006435197625925633,
+    "fields": {
+        "source": "the verge",
+        "sub_source": "exclusive",
+        "url": "https://www.theverge.com/rss/exclusive/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:34:07.705Z",
+        "last_pull": "2024-10-11T00:07:59.925Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507283091457,
+    "fields": {
+        "source": "wired",
+        "sub_source": "main",
+        "url": "https://www.wired.com/feed/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.559Z",
+        "last_pull": "2024-10-11T00:08:09.866Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507355705345,
+    "fields": {
+        "source": "wired",
+        "sub_source": "business",
+        "url": "https://www.wired.com/feed/category/business/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.582Z",
+        "last_pull": "2024-10-11T00:08:09.982Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507438247937,
+    "fields": {
+        "source": "wired",
+        "sub_source": "ai",
+        "url": "https://www.wired.com/feed/tag/ai/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.606Z",
+        "last_pull": "2024-10-11T00:08:10.049Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507505520641,
+    "fields": {
+        "source": "wired",
+        "sub_source": "culture",
+        "url": "https://www.wired.com/feed/category/culture/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.627Z",
+        "last_pull": "2024-10-11T00:08:10.173Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507574464513,
+    "fields": {
+        "source": "wired",
+        "sub_source": "gear",
+        "url": "https://www.wired.com/feed/category/gear/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.649Z",
+        "last_pull": "2024-10-11T00:08:10.283Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507654287361,
+    "fields": {
+        "source": "wired",
+        "sub_source": "ideas",
+        "url": "https://www.wired.com/feed/category/ideas/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.673Z",
+        "last_pull": "2024-10-11T00:08:10.392Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507726376961,
+    "fields": {
+        "source": "wired",
+        "sub_source": "science",
+        "url": "https://www.wired.com/feed/category/science/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.695Z",
+        "last_pull": "2024-10-11T00:08:10.503Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507791454209,
+    "fields": {
+        "source": "wired",
+        "sub_source": "security",
+        "url": "https://www.wired.com/feed/category/security/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.715Z",
+        "last_pull": "2024-10-11T00:08:10.614Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507853189121,
+    "fields": {
+        "source": "wired",
+        "sub_source": "backchannel",
+        "url": "https://www.wired.com/feed/category/backchannel/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.734Z",
+        "last_pull": "2024-10-11T00:08:10.725Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006437507931373569,
+    "fields": {
+        "source": "wired",
+        "sub_source": "wired-guide",
+        "url": "https://www.wired.com/feed/tag/wired-guide/latest/rss",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:45:52.758Z",
+        "last_pull": "2024-10-11T00:08:10.830Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438011234025473,
+    "fields": {
+        "source": "mashable",
+        "sub_source": "main",
+        "url": "http://feeds.mashable.com/Mashable",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:48:26.352Z",
+        "last_pull": "2024-10-11T00:08:57.253Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438011315814401,
+    "fields": {
+        "source": "mashable",
+        "sub_source": "entertainment",
+        "url": "http://feeds.mashable.com/mashable/entertainment",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:48:26.375Z",
+        "last_pull": "2024-10-11T00:08:58.250Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438011401404417,
+    "fields": {
+        "source": "mashable",
+        "sub_source": "digital-culture",
+        "url": "https://mashable.com/feeds/rss/digital-culture",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:48:26.403Z",
+        "last_pull": "2024-10-11T00:08:58.955Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438011474313217,
+    "fields": {
+        "source": "mashable",
+        "sub_source": "technology",
+        "url": "https://mashable.com/feeds/rss/technology",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:48:26.425Z",
+        "last_pull": "2024-10-11T00:08:59.093Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438011549712385,
+    "fields": {
+        "source": "mashable",
+        "sub_source": "social-good",
+        "url": "https://mashable.com/feeds/rss/social-good",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:48:26.449Z",
+        "last_pull": "2024-10-11T00:08:59.747Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438857233039361,
+    "fields": {
+        "source": "cnet",
+        "sub_source": "news",
+        "url": "https://www.cnet.com/rss/news/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:52:44.530Z",
+        "last_pull": "2024-10-11T00:09:07.553Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438857327575041,
+    "fields": {
+        "source": "cnet",
+        "sub_source": "reviews",
+        "url": "https://www.cnet.com/rss/reviews/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:52:44.559Z",
+        "last_pull": "2024-10-11T00:09:07.767Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438857418670081,
+    "fields": {
+        "source": "cnet",
+        "sub_source": "podcast",
+        "url": "https://feed.cnet.com/feed/podcast/all/hd.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T20:52:44.587Z",
+        "last_pull": "2024-10-11T00:09:12.744Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438857506684929,
+    "fields": {
+        "source": "cnet",
+        "sub_source": "how-to",
+        "url": "https://www.cnet.com/rss/how-to/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:52:44.613Z",
+        "last_pull": "2024-10-11T00:09:12.946Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438857595846657,
+    "fields": {
+        "source": "cnet",
+        "sub_source": "deals",
+        "url": "https://www.cnet.com/rss/deals/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:52:44.641Z",
+        "last_pull": "2024-10-11T00:09:15.154Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438857693790209,
+    "fields": {
+        "source": "cnet",
+        "sub_source": "roadshow",
+        "url": "https://feed.cnet.com/feed/roadshow/all",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:52:44.671Z",
+        "last_pull": "2024-10-11T00:09:15.761Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438857778855937,
+    "fields": {
+        "source": "cnet",
+        "sub_source": "smart-home",
+        "url": "https://www.cnet.com/rss/smart-home/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:52:44.697Z",
+        "last_pull": "2024-10-11T00:09:17.373Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006438857863757825,
+    "fields": {
+        "source": "cnet",
+        "sub_source": "all",
+        "url": "https://www.cnet.com/rss/all/",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:52:44.722Z",
+        "last_pull": "2024-10-11T00:09:17.572Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006439702841360385,
+    "fields": {
+        "source": "vox",
+        "sub_source": "news",
+        "url": "https://www.vox.com/rss/index.xml",
+        "active": true,
+        "skip_content_scrape": false,
+        "last_updated": "2024-09-24T20:57:02.591Z",
+        "last_pull": "2024-10-11T00:09:24.228Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440709983797249,
+    "fields": {
+        "source": "politico",
+        "sub_source": "congress",
+        "url": "https://rss.politico.com/congress.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:09.944Z",
+        "last_pull": "2024-10-11T00:09:25.954Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710080167937,
+    "fields": {
+        "source": "politico",
+        "sub_source": "healthcare",
+        "url": "https://rss.politico.com/healthcare.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:09.972Z",
+        "last_pull": "2024-10-11T00:09:26.585Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710168543233,
+    "fields": {
+        "source": "politico",
+        "sub_source": "defense",
+        "url": "https://rss.politico.com/defense.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.001Z",
+        "last_pull": "2024-10-11T00:09:26.760Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710260686849,
+    "fields": {
+        "source": "politico",
+        "sub_source": "economy",
+        "url": "https://rss.politico.com/economy.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.028Z",
+        "last_pull": "2024-10-11T00:09:26.889Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710364692481,
+    "fields": {
+        "source": "politico",
+        "sub_source": "energy",
+        "url": "https://rss.politico.com/energy.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.060Z",
+        "last_pull": "2024-10-11T00:09:27.593Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710470762497,
+    "fields": {
+        "source": "politico",
+        "sub_source": "politics-news",
+        "url": "https://rss.politico.com/politics-news.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.092Z",
+        "last_pull": "2024-10-11T00:09:29.693Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710568673281,
+    "fields": {
+        "source": "politico",
+        "sub_source": "playbook",
+        "url": "https://rss.politico.com/playbook.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.123Z",
+        "last_pull": "2024-10-11T00:09:30.367Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710667239425,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningtech",
+        "url": "https://rss.politico.com/morningtech.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.153Z",
+        "last_pull": "2024-10-11T00:09:31.020Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710756892673,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningmoney",
+        "url": "https://rss.politico.com/morningmoney.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.180Z",
+        "last_pull": "2024-10-11T00:09:31.655Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710846382081,
+    "fields": {
+        "source": "politico",
+        "sub_source": "politicopulse",
+        "url": "https://rss.politico.com/politicopulse.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.208Z",
+        "last_pull": "2024-10-11T00:09:32.312Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440710958743553,
+    "fields": {
+        "source": "politico",
+        "sub_source": "huddle",
+        "url": "https://rss.politico.com/huddle.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.241Z",
+        "last_pull": "2024-10-11T00:09:33.061Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711061405697,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningenergy",
+        "url": "https://rss.politico.com/morningenergy.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.273Z",
+        "last_pull": "2024-10-11T00:09:33.734Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711148077057,
+    "fields": {
+        "source": "politico",
+        "sub_source": "politicoinfluence",
+        "url": "https://rss.politico.com/politicoinfluence.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.300Z",
+        "last_pull": "2024-10-11T00:09:34.429Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711266533377,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningscore",
+        "url": "https://rss.politico.com/morningscore.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.333Z",
+        "last_pull": "2024-10-11T00:09:34.532Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711361069057,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningtransportation",
+        "url": "https://rss.politico.com/morningtransportation.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.365Z",
+        "last_pull": "2024-10-11T00:09:34.628Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711449378817,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningeducation",
+        "url": "https://rss.politico.com/morningeducation.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.392Z",
+        "last_pull": "2024-10-11T00:09:34.714Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711540146177,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningtax",
+        "url": "https://rss.politico.com/morningtax.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.418Z",
+        "last_pull": "2024-10-11T00:09:34.805Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711648903169,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningagriculture",
+        "url": "https://rss.politico.com/morningagriculture.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.452Z",
+        "last_pull": "2024-10-11T00:09:34.934Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711738687489,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningcybersecurity",
+        "url": "https://rss.politico.com/morningcybersecurity.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.479Z",
+        "last_pull": "2024-10-11T00:09:35.017Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711830437889,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningshift",
+        "url": "https://rss.politico.com/morningshift.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.506Z",
+        "last_pull": "2024-10-11T00:09:35.096Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440711930937345,
+    "fields": {
+        "source": "politico",
+        "sub_source": "morningtrade",
+        "url": "https://rss.politico.com/morningtrade.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.538Z",
+        "last_pull": "2024-10-11T00:09:35.199Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1006440712020492289,
+    "fields": {
+        "source": "politico",
+        "sub_source": "magazine",
+        "url": "https://rss.politico.com/magazine.xml",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-24T21:02:10.566Z",
+        "last_pull": "2024-10-11T00:09:36.994Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124949833252865,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "finance",
+        "url": "https://www.ft.com/?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.158Z",
+        "last_pull": "2024-10-11T00:09:51.211Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124949902426113,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "world",
+        "url": "https://www.ft.com/world?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.179Z",
+        "last_pull": "2024-10-11T00:09:56.474Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124949957967873,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "global economy",
+        "url": "https://www.ft.com/global-economy?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.197Z",
+        "last_pull": "2024-10-11T00:09:59.282Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950011740161,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "world uk",
+        "url": "https://www.ft.com/world-uk?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.213Z",
+        "last_pull": "2024-10-11T00:10:04.843Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950066823169,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "us",
+        "url": "https://www.ft.com/us?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.230Z",
+        "last_pull": "2024-10-11T00:10:09.768Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950134095873,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "africa",
+        "url": "https://www.ft.com/africa?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.250Z",
+        "last_pull": "2024-10-11T00:10:10.094Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950190686209,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "asia pacific",
+        "url": "https://www.ft.com/asia-pacific?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.267Z",
+        "last_pull": "2024-10-11T00:10:12.868Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950248456193,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "europe",
+        "url": "https://www.ft.com/europe?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.285Z",
+        "last_pull": "2024-10-11T00:10:17.175Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950303834113,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "financials",
+        "url": "https://www.ft.com/financials?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.302Z",
+        "last_pull": "2024-10-11T00:10:20.957Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950365503489,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "health",
+        "url": "https://www.ft.com/health?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.321Z",
+        "last_pull": "2024-10-11T00:10:21.050Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950423568385,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "emerging markets",
+        "url": "https://www.ft.com/emerging-markets?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.339Z",
+        "last_pull": "2024-10-11T00:10:21.143Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950497918977,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "technology sector",
+        "url": "https://www.ft.com/technology-sector?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.357Z",
+        "last_pull": "2024-10-11T00:10:21.242Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950558932993,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "americas",
+        "url": "https://www.ft.com/americas?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.380Z",
+        "last_pull": "2024-10-11T00:10:21.341Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950611689473,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "middle east north africa",
+        "url": "https://www.ft.com/middle-east-north-africa?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.396Z",
+        "last_pull": "2024-10-11T00:10:21.449Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950663135233,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "companies",
+        "url": "https://www.ft.com/companies?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.412Z",
+        "last_pull": "2024-10-11T00:10:21.548Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950717661185,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "energy",
+        "url": "https://www.ft.com/energy?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.428Z",
+        "last_pull": "2024-10-11T00:10:21.640Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950775234561,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "industrials",
+        "url": "https://www.ft.com/industrials?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.446Z",
+        "last_pull": "2024-10-11T00:10:21.740Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950832513025,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "media",
+        "url": "https://www.ft.com/media?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.464Z",
+        "last_pull": "2024-10-11T00:10:21.835Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950888611841,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "professional services",
+        "url": "https://www.ft.com/professional-services?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.481Z",
+        "last_pull": "2024-10-11T00:10:21.926Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950943399937,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "retail consumer",
+        "url": "https://ft.com/retail-consumer?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.497Z",
+        "last_pull": "2024-10-11T00:10:22.036Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124950996221953,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "telecoms",
+        "url": "https://www.ft.com/telecoms?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.514Z",
+        "last_pull": "2024-10-11T00:10:22.134Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124951048912897,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "transport",
+        "url": "https://www.ft.com/transport?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.530Z",
+        "last_pull": "2024-10-11T00:10:22.222Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124951115825153,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "markets",
+        "url": "https://www.ft.com/markets?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.567Z",
+        "last_pull": "2024-10-11T00:10:22.313Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124951223140353,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "climate capital",
+        "url": "https://www.ft.com/climate-capital?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.583Z",
+        "last_pull": "2024-10-11T00:10:22.419Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124951284613121,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "opinion",
+        "url": "https://www.ft.com/opinion?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.602Z",
+        "last_pull": "2024-10-11T00:10:22.500Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008124951342841857,
+    "fields": {
+        "source": "financial times",
+        "sub_source": "work-careers",
+        "url": "https://www.ft.com/work-careers?format=rss",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T19:48:39.619Z",
+        "last_pull": "2024-10-11T00:10:22.641Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008136060863381505,
+    "fields": {
+        "source": "marketwatch",
+        "sub_source": "market pulse",
+        "url": "https://feeds.content.dowjones.io/public/rss/mw_marketpulse",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T20:45:09.974Z",
+        "last_pull": "2024-10-11T00:10:22.794Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008136060954116097,
+    "fields": {
+        "source": "marketwatch",
+        "sub_source": "bulletins",
+        "url": "https://feeds.content.dowjones.io/public/rss/mw_bulletins",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T20:45:10.002Z",
+        "last_pull": "2024-10-11T00:10:28.065Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008136061039902721,
+    "fields": {
+        "source": "marketwatch",
+        "sub_source": "realtime headlines",
+        "url": "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T20:45:10.028Z",
+        "last_pull": "2024-10-11T00:10:28.619Z"
+    }
+},
+{
+    "model": "feeds.feedsource",
+    "pk": 1008136061123067905,
+    "fields": {
+        "source": "marketwatch",
+        "sub_source": "top stories",
+        "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+        "active": true,
+        "skip_content_scrape": true,
+        "last_updated": "2024-09-30T20:45:10.053Z",
+        "last_pull": "2024-10-11T00:10:32.911Z"
+    }
+}
+]
