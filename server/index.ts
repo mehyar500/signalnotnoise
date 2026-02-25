@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import cron from 'node-cron';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import { query } from './db.js';
 import { initSchema } from './schema.js';
 import { seedSources } from './seed-sources.js';
@@ -10,6 +12,19 @@ import { isAIAvailable } from './services/cloudflare-ai.js';
 const app = express();
 const PORT = 3001;
 const DEFAULT_USER_ID = '00000000-0000-0000-0000-000000000000';
+const JWT_SECRET = process.env.JWT_SECRET || 'axial-news-jwt-secret-key-2026';
+const BETA_PASSWORD = 'Password19';
+
+function getUserIdFromRequest(req: express.Request): string | null {
+  const auth = req.headers.authorization;
+  if (!auth || !auth.startsWith('Bearer ')) return null;
+  try {
+    const decoded = jwt.verify(auth.slice(7), JWT_SECRET) as { userId: string };
+    return decoded.userId;
+  } catch {
+    return null;
+  }
+}
 
 app.use(cors());
 app.use(express.json());
@@ -20,6 +35,141 @@ app.get('/api/v1/health', (_req, res) => {
     aiAvailable: isAIAvailable(),
     timestamp: new Date().toISOString(),
   });
+});
+
+app.post('/api/v1/auth/signup', async (req, res) => {
+  try {
+    const { email, password, displayName } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+    if (password !== BETA_PASSWORD) {
+      return res.status(403).json({ error: 'Invalid access code. Contact us to join the beta.' });
+    }
+
+    const existing = await query('SELECT id FROM users WHERE email = $1', [email.toLowerCase().trim()]);
+    if (existing.rows.length > 0) {
+      return res.status(409).json({ error: 'An account with this email already exists' });
+    }
+
+    const hash = await bcrypt.hash(password, 10);
+    const result = await query(
+      'INSERT INTO users (id, email, password_hash, display_name, created_at, last_active_at) VALUES (gen_random_uuid(), $1, $2, $3, NOW(), NOW()) RETURNING id, email, display_name',
+      [email.toLowerCase().trim(), hash, displayName || null]
+    );
+
+    const user = result.rows[0];
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
+
+    res.status(201).json({
+      user: { id: user.id, email: user.email, displayName: user.display_name },
+      token,
+    });
+  } catch (err) {
+    console.error('[api] signup error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/v1/auth/signin', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const result = await query('SELECT id, email, display_name, password_hash FROM users WHERE email = $1', [email.toLowerCase().trim()]);
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const user = result.rows[0];
+    if (!user.password_hash) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const valid = await bcrypt.compare(password, user.password_hash);
+    if (!valid) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    await query('UPDATE users SET last_active_at = NOW() WHERE id = $1', [user.id]);
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '30d' });
+
+    res.json({
+      user: { id: user.id, email: user.email, displayName: user.display_name },
+      token,
+    });
+  } catch (err) {
+    console.error('[api] signin error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/v1/auth/me', async (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+  try {
+    const result = await query('SELECT id, email, display_name FROM users WHERE id = $1', [userId]);
+    if (result.rows.length === 0) return res.status(401).json({ error: 'User not found' });
+    const u = result.rows[0];
+    res.json({ id: u.id, email: u.email, displayName: u.display_name });
+  } catch (err) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/v1/search', async (req, res) => {
+  try {
+    const q = (req.query.q as string || '').trim();
+    const bias = req.query.bias as string;
+    const limit = Math.min(parseInt(req.query.limit as string) || 20, 50);
+
+    if (!q && !bias) {
+      return res.status(400).json({ error: 'Search query (q) or bias filter required' });
+    }
+
+    let whereClause = 'WHERE c.is_active = true AND c.article_count >= 2';
+    const params: unknown[] = [limit];
+    let paramIdx = 2;
+
+    if (q) {
+      whereClause += ` AND (c.representative_headline ILIKE $${paramIdx} OR c.topic ILIKE $${paramIdx} OR c.summary ILIKE $${paramIdx})`;
+      params.push(`%${q}%`);
+      paramIdx++;
+    }
+
+    if (bias && ['left', 'center-left', 'center', 'center-right', 'right', 'international'].includes(bias)) {
+      if (bias === 'left' || bias === 'center-left') {
+        whereClause += ` AND c.left_count > 0`;
+      } else if (bias === 'right' || bias === 'center-right') {
+        whereClause += ` AND c.right_count > 0`;
+      } else if (bias === 'center') {
+        whereClause += ` AND c.center_count > 0`;
+      } else if (bias === 'international') {
+        whereClause += ` AND c.international_count > 0`;
+      }
+    }
+
+    const result = await query(
+      `SELECT c.id, c.topic, c.topic_slug, c.representative_headline, c.summary,
+              c.bias_analysis, c.avg_heat_score, c.avg_substance_score,
+              c.article_count, c.source_count, c.left_count, c.center_count,
+              c.right_count, c.international_count,
+              c.first_article_at, c.last_article_at,
+              (SELECT a.image_url FROM articles a WHERE a.cluster_id = c.id AND a.image_url IS NOT NULL ORDER BY a.published_at DESC LIMIT 1) as hero_image
+       FROM clusters c
+       ${whereClause}
+       ORDER BY c.last_article_at DESC
+       LIMIT $1`,
+      params
+    );
+
+    res.json({ items: result.rows.map(formatCluster) });
+  } catch (err) {
+    console.error('[api] /search error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.get('/api/v1/clusters', async (req, res) => {
@@ -155,19 +305,10 @@ app.get('/api/v1/stats', async (_req, res) => {
   }
 });
 
-async function ensureDefaultUser() {
-  const existing = await query(`SELECT id FROM users WHERE id = $1`, [DEFAULT_USER_ID]);
-  if (existing.rows.length === 0) {
-    await query(
-      `INSERT INTO users (id, email) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING`,
-      [DEFAULT_USER_ID, 'default@axial.news']
-    );
-  }
-}
-
-app.get('/api/v1/collections', async (_req, res) => {
+app.get('/api/v1/collections', async (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  if (!userId) return res.status(401).json({ error: 'Sign in to access collections' });
   try {
-    await ensureDefaultUser();
     const result = await query(
       `SELECT c.id, c.title, c.created_at, c.updated_at,
               COUNT(b.id) as bookmark_count,
@@ -177,7 +318,7 @@ app.get('/api/v1/collections', async (_req, res) => {
        WHERE c.user_id = $1
        GROUP BY c.id
        ORDER BY c.updated_at DESC`,
-      [DEFAULT_USER_ID]
+      [userId]
     );
 
     res.json(result.rows.map(r => ({
@@ -195,8 +336,9 @@ app.get('/api/v1/collections', async (_req, res) => {
 });
 
 app.post('/api/v1/collections', async (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  if (!userId) return res.status(401).json({ error: 'Sign in to create collections' });
   try {
-    await ensureDefaultUser();
     const { title } = req.body;
     if (!title || typeof title !== 'string' || title.trim().length === 0) {
       return res.status(400).json({ error: 'Title is required' });
@@ -206,7 +348,7 @@ app.post('/api/v1/collections', async (req, res) => {
       `INSERT INTO collections (id, title, user_id, created_at, updated_at)
        VALUES (gen_random_uuid(), $1, $2, NOW(), NOW())
        RETURNING id, title, created_at, updated_at`,
-      [title.trim(), DEFAULT_USER_ID]
+      [title.trim(), userId]
     );
 
     const r = result.rows[0];
@@ -224,10 +366,12 @@ app.post('/api/v1/collections', async (req, res) => {
 });
 
 app.get('/api/v1/collections/:id', async (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  if (!userId) return res.status(401).json({ error: 'Sign in to access collections' });
   try {
     const collectionRes = await query(
       `SELECT id, title, created_at, updated_at FROM collections WHERE id = $1 AND user_id = $2`,
-      [req.params.id, DEFAULT_USER_ID]
+      [req.params.id, userId]
     );
 
     if (collectionRes.rows.length === 0) {
@@ -268,11 +412,13 @@ app.get('/api/v1/collections/:id', async (req, res) => {
 });
 
 app.delete('/api/v1/collections/:id', async (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  if (!userId) return res.status(401).json({ error: 'Sign in required' });
   try {
     await query(`DELETE FROM bookmarks WHERE collection_id = $1`, [req.params.id]);
     const result = await query(
       `DELETE FROM collections WHERE id = $1 AND user_id = $2 RETURNING id`,
-      [req.params.id, DEFAULT_USER_ID]
+      [req.params.id, userId]
     );
 
     if (result.rows.length === 0) {
@@ -344,13 +490,15 @@ app.delete('/api/v1/bookmarks/:id', async (req, res) => {
 });
 
 app.get('/api/v1/bookmarks/check/:clusterId', async (req, res) => {
+  const userId = getUserIdFromRequest(req);
+  if (!userId) return res.json([]);
   try {
     const result = await query(
       `SELECT b.id, b.collection_id, c.title as collection_title
        FROM bookmarks b
        JOIN collections c ON b.collection_id = c.id
        WHERE b.cluster_id = $1 AND c.user_id = $2`,
-      [req.params.clusterId, DEFAULT_USER_ID]
+      [req.params.clusterId, userId]
     );
 
     res.json(result.rows.map(r => ({

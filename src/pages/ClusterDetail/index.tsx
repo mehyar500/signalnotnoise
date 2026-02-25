@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Users, Clock, BookmarkPlus, Loader2, AlertCircle, Check, Plus, FolderPlus, X } from 'lucide-react';
+import { ArrowLeft, Users, Clock, BookmarkPlus, Loader2, AlertCircle, Check, Plus, FolderPlus, X, User } from 'lucide-react';
 import { GlassCard } from '@/components/GlassCard';
 import { HeatBar } from '@/components/HeatBar';
 import { BiasMirror } from '@/features/cluster/BiasMirror';
+import { useAppSelector } from '@/app/hooks';
 import {
   useGetClusterDetailQuery,
   useGetCollectionsQuery,
@@ -47,8 +48,10 @@ function SaveToResearchButton({ clusterId }: { clusterId: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [showNewInput, setShowNewInput] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAppSelector(s => s.auth);
 
-  const { data: collections } = useGetCollectionsQuery();
+  const { data: collections } = useGetCollectionsQuery(undefined, { skip: !user });
   const { data: existingBookmarks } = useCheckBookmarksQuery(clusterId);
   const [createBookmark, { isLoading: isSaving }] = useCreateBookmarkMutation();
   const [createCollection, { isLoading: isCreating }] = useCreateCollectionMutation();
@@ -58,8 +61,7 @@ function SaveToResearchButton({ clusterId }: { clusterId: string }) {
   async function handleSave(collectionId: string) {
     try {
       await createBookmark({ clusterId, collectionId }).unwrap();
-    } catch (err) {
-    }
+    } catch {}
   }
 
   async function handleCreateAndSave() {
@@ -69,8 +71,19 @@ function SaveToResearchButton({ clusterId }: { clusterId: string }) {
       await createBookmark({ clusterId, collectionId: col.id }).unwrap();
       setNewTitle('');
       setShowNewInput(false);
-    } catch (err) {
-    }
+    } catch {}
+  }
+
+  if (!user) {
+    return (
+      <button
+        onClick={() => navigate('/auth')}
+        className="flex items-center gap-2 text-sm font-medium text-white/40 hover:text-indigo-400 transition-all px-4 py-2 rounded-xl border border-white/[0.06] hover:border-indigo-500/20 hover:bg-indigo-500/5"
+      >
+        <User size={15} />
+        Sign in to save
+      </button>
+    );
   }
 
   if (!isOpen) {

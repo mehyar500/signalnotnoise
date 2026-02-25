@@ -75,10 +75,15 @@ export async function initSchema() {
     CREATE TABLE IF NOT EXISTS users (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       email TEXT UNIQUE,
+      password_hash TEXT,
+      display_name TEXT,
       created_at TIMESTAMPTZ DEFAULT NOW(),
       last_active_at TIMESTAMPTZ DEFAULT NOW()
     )
   `);
+
+  await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT`);
+  await query(`ALTER TABLE users ADD COLUMN IF NOT EXISTS display_name TEXT`);
 
   await query(`
     CREATE TABLE IF NOT EXISTS collections (

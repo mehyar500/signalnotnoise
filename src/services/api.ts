@@ -1,9 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { RootState } from '@/app/store';
 import type { Cluster, DailyDigest, Collection, CollectionDetail, Bookmark, BookmarkCheck } from '@/types';
 
 interface GetClustersResponse {
   items: Cluster[];
   nextCursor: string | null;
+}
+
+interface SearchResponse {
+  items: Cluster[];
 }
 
 interface Stats {
@@ -16,7 +21,14 @@ interface Stats {
 
 export const api = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: '/api/v1',
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth.token;
+      if (token) headers.set('Authorization', `Bearer ${token}`);
+      return headers;
+    },
+  }),
   tagTypes: ['Clusters', 'Digest', 'Stats', 'Collections', 'Bookmarks'],
   endpoints: (builder) => ({
     getClusters: builder.query<GetClustersResponse, { cursor?: string; limit?: number }>({
@@ -80,6 +92,15 @@ export const api = createApi({
       query: (clusterId) => `bookmarks/check/${clusterId}`,
       providesTags: ['Bookmarks'],
     }),
+    searchClusters: builder.query<SearchResponse, { q?: string; bias?: string; limit?: number }>({
+      query: ({ q, bias, limit = 20 }) => {
+        const params = new URLSearchParams();
+        if (q) params.set('q', q);
+        if (bias) params.set('bias', bias);
+        params.set('limit', String(limit));
+        return `search?${params}`;
+      },
+    }),
   }),
 });
 
@@ -98,4 +119,5 @@ export const {
   useCreateBookmarkMutation,
   useDeleteBookmarkMutation,
   useCheckBookmarksQuery,
+  useSearchClustersQuery,
 } = api;
