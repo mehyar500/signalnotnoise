@@ -131,7 +131,7 @@ export function Auth() {
                 </button>
               </div>
               {mode === 'signup' && (
-                <p className="text-[11px] text-white/20 mt-1.5">Must match the access code to join the beta</p>
+                <p className="text-[11px] text-white/20 mt-1.5">At least 8 characters</p>
               )}
             </div>
 

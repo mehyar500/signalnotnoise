@@ -15,7 +15,7 @@ const app = express();
 const PORT = 3001;
 const DEFAULT_USER_ID = '00000000-0000-0000-0000-000000000000';
 const JWT_SECRET = process.env.JWT_SECRET || 'axial-news-jwt-secret-key-2026';
-const BETA_PASSWORD = 'Password19';
+
 
 function getUserIdFromRequest(req: express.Request): string | null {
   const auth = req.headers.authorization;
@@ -65,8 +65,8 @@ app.post('/api/v1/auth/signup', async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
-    if (password !== BETA_PASSWORD) {
-      return res.status(403).json({ error: 'Invalid access code. Contact us to join the beta.' });
+    if (password.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' });
     }
 
     const existing = await query('SELECT id FROM users WHERE email = $1', [email.toLowerCase().trim()]);
