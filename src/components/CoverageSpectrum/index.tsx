@@ -8,10 +8,10 @@ interface CoverageSpectrumProps {
 }
 
 const SEGMENTS = [
-  { key: 'left' as const, color: '#3b82f6', label: 'Left' },
-  { key: 'center' as const, color: '#8b5cf6', label: 'Center' },
-  { key: 'right' as const, color: '#ef4444', label: 'Right' },
-  { key: 'international' as const, color: '#10b981', label: 'Global' },
+  { key: 'left' as const, cssVar: 'var(--bias-left)', label: 'Left' },
+  { key: 'center' as const, cssVar: 'var(--bias-center)', label: 'Center' },
+  { key: 'right' as const, cssVar: 'var(--bias-right)', label: 'Right' },
+  { key: 'international' as const, cssVar: 'var(--bias-intl)', label: 'Global' },
 ];
 
 export function CoverageSpectrum({ breakdown, size = 'md', showLabels = false, showCounts = false }: CoverageSpectrumProps) {
@@ -32,7 +32,7 @@ export function CoverageSpectrum({ breakdown, size = 'md', showLabels = false, s
         {segments.map(s => (
           <div
             key={s.key}
-            style={{ width: `${(s.count / total) * 100}%`, backgroundColor: s.color }}
+            style={{ width: `${(s.count / total) * 100}%`, backgroundColor: s.cssVar }}
             className="h-full first:rounded-l-full last:rounded-r-full transition-all duration-500"
           />
         ))}
@@ -41,7 +41,7 @@ export function CoverageSpectrum({ breakdown, size = 'md', showLabels = false, s
         <div className="flex gap-3 flex-wrap">
           {segments.map(s => (
             <div key={s.key} className="flex items-center gap-1">
-              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} />
+              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.cssVar }} />
               <span className="text-[10px]" style={{ color: 'var(--text-tertiary)' }}>
                 {showLabels && s.label}
                 {showCounts && <span className="font-medium ml-0.5" style={{ color: 'var(--text-secondary)' }}>{s.count}</span>}

@@ -56,7 +56,7 @@ server/                 # Backend (Express.js API)
 
 ## Auth & Admin
 
-- Beta password gate: `Password19` required at signup
+- Open signup (no beta gate), 8-character minimum password
 - First user auto-promoted to admin (`is_admin = true`)
 - JWT auth with 30-day tokens, stored in localStorage
 - Admin endpoints require JWT + `is_admin` flag
@@ -119,9 +119,12 @@ npm run dev   # Starts both backend (port 3001) and frontend (port 5000)
 
 ## Design System
 
-- Dark theme: `#0f172a` base, glassmorphism surfaces
-- Light theme: clean white/gray
-- Accent: Indigo/Purple gradient
-- Bias colors: Left = Blue, Center = Purple, Right = Red, International = Green
-- Heat: Orange | Substance: Cyan
+- Dark theme: `#111318` base, warm charcoal surfaces, glassmorphism
+- Light theme: `#f5f5f0` warm white/cream backgrounds
+- Accent: Amber/burnt-orange (`#d97706` dark, `#b45309` light) — matching compass logo
+- Bias colors: Left = Blue (`#2563eb`), Center = Gray (`#6b7280`), Right = Red (`#dc2626`), International = Green (`#059669`)
+- Heat: Orange (`#f97316`) | Substance: Cyan (`#06b6d4`)
+- Logo: Amber compass rose SVG (inline component `src/components/Logo.tsx` + `public/favicon.svg`)
+- Favicon: SVG compass icon at `public/favicon.svg`
+- All components use CSS custom properties exclusively — no hardcoded `text-white/*` or `text-indigo-*` 
 - Layout: `max-w-6xl` container

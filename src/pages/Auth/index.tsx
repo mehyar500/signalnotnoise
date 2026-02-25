@@ -55,32 +55,36 @@ export function Auth() {
     <div className="min-h-[70vh] flex items-center justify-center">
       <div className="w-full max-w-md space-y-6 animate-fade-in">
         <div className="text-center">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--accent-text)' }}>
             Axial
           </h1>
-          <p className="text-white/40 text-sm mt-2">
+          <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>
             {mode === 'signup' ? 'Join the clearest view of the news' : 'Welcome back'}
           </p>
         </div>
 
         <GlassCard className="p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="flex rounded-xl overflow-hidden border border-white/[0.07] bg-white/[0.02]">
+            <div className="flex rounded-xl overflow-hidden" style={{ border: '1px solid var(--border-subtle)', background: 'var(--bg-inset)' }}>
               <button
                 type="button"
                 onClick={() => { setMode('signup'); setError(''); }}
-                className={`flex-1 py-2.5 text-sm font-medium transition-all ${
-                  mode === 'signup' ? 'bg-white/10 text-white' : 'text-white/30 hover:text-white/50'
-                }`}
+                className="flex-1 py-2.5 text-sm font-medium transition-all"
+                style={{
+                  background: mode === 'signup' ? 'var(--bg-elevated)' : 'transparent',
+                  color: mode === 'signup' ? 'var(--text-primary)' : 'var(--text-muted)',
+                }}
               >
                 Sign up
               </button>
               <button
                 type="button"
                 onClick={() => { setMode('signin'); setError(''); }}
-                className={`flex-1 py-2.5 text-sm font-medium transition-all ${
-                  mode === 'signin' ? 'bg-white/10 text-white' : 'text-white/30 hover:text-white/50'
-                }`}
+                className="flex-1 py-2.5 text-sm font-medium transition-all"
+                style={{
+                  background: mode === 'signin' ? 'var(--bg-elevated)' : 'transparent',
+                  color: mode === 'signin' ? 'var(--text-primary)' : 'var(--text-muted)',
+                }}
               >
                 Sign in
               </button>
@@ -88,31 +92,45 @@ export function Auth() {
 
             {mode === 'signup' && (
               <div>
-                <label className="block text-xs text-white/40 font-medium mb-1.5">Display name</label>
+                <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-muted)' }}>Display name</label>
                 <input
                   type="text"
                   value={displayName}
                   onChange={e => setDisplayName(e.target.value)}
                   placeholder="How should we call you?"
-                  className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-white placeholder-white/20 outline-none focus:border-indigo-500/40 transition-colors"
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-colors"
+                  style={{
+                    background: 'var(--bg-input)',
+                    border: '1px solid var(--border-input)',
+                    color: 'var(--text-primary)',
+                  }}
+                  onFocus={e => e.currentTarget.style.borderColor = 'var(--border-input-focus)'}
+                  onBlur={e => e.currentTarget.style.borderColor = 'var(--border-input)'}
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-xs text-white/40 font-medium mb-1.5">Email</label>
+              <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-muted)' }}>Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-white placeholder-white/20 outline-none focus:border-indigo-500/40 transition-colors"
+                className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-colors"
+                style={{
+                  background: 'var(--bg-input)',
+                  border: '1px solid var(--border-input)',
+                  color: 'var(--text-primary)',
+                }}
+                onFocus={e => e.currentTarget.style.borderColor = 'var(--border-input-focus)'}
+                onBlur={e => e.currentTarget.style.borderColor = 'var(--border-input)'}
               />
             </div>
 
             <div>
-              <label className="block text-xs text-white/40 font-medium mb-1.5">Password</label>
+              <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-muted)' }}>Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -120,23 +138,31 @@ export function Auth() {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="Enter password"
                   required
-                  className="w-full px-4 py-3 pr-12 rounded-xl bg-white/[0.04] border border-white/[0.08] text-sm text-white placeholder-white/20 outline-none focus:border-indigo-500/40 transition-colors"
+                  className="w-full px-4 py-3 pr-12 rounded-xl text-sm outline-none transition-colors"
+                  style={{
+                    background: 'var(--bg-input)',
+                    border: '1px solid var(--border-input)',
+                    color: 'var(--text-primary)',
+                  }}
+                  onFocus={e => e.currentTarget.style.borderColor = 'var(--border-input-focus)'}
+                  onBlur={e => e.currentTarget.style.borderColor = 'var(--border-input)'}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/20 hover:text-white/50 transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                  style={{ color: 'var(--text-muted)' }}
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               {mode === 'signup' && (
-                <p className="text-[11px] text-white/20 mt-1.5">At least 8 characters</p>
+                <p className="text-[11px] mt-1.5" style={{ color: 'var(--text-faint)' }}>At least 8 characters</p>
               )}
             </div>
 
             {error && (
-              <div className="px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+              <div className="px-4 py-3 rounded-xl text-sm" style={{ background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', color: 'var(--danger-text)' }}>
                 {error}
               </div>
             )}
@@ -144,7 +170,10 @@ export function Auth() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-all disabled:opacity-50 shadow-lg shadow-indigo-500/20"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium transition-all disabled:opacity-50"
+              style={{ background: 'var(--accent-solid)', color: 'var(--text-inverse)', boxShadow: '0 4px 12px rgba(217, 119, 6, 0.2)' }}
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-solid-hover)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'var(--accent-solid)'}
             >
               {isLoading ? (
                 <Loader2 size={16} className="animate-spin" />
@@ -160,22 +189,22 @@ export function Auth() {
 
         {mode === 'signup' && (
           <div className="grid grid-cols-3 gap-3">
-            <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-              <Shield size={16} className="text-indigo-400/60" />
-              <span className="text-[10px] text-white/30 text-center leading-tight">Save your research collections</span>
+            <div className="flex flex-col items-center gap-2 p-3 rounded-xl" style={{ background: 'var(--bg-inset)', border: '1px solid var(--border-subtle)' }}>
+              <Shield size={16} style={{ color: 'var(--accent-text)', opacity: 0.6 }} />
+              <span className="text-[10px] text-center leading-tight" style={{ color: 'var(--text-muted)' }}>Save your research collections</span>
             </div>
-            <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-              <BookMarked size={16} className="text-purple-400/60" />
-              <span className="text-[10px] text-white/30 text-center leading-tight">Bookmark stories to track</span>
+            <div className="flex flex-col items-center gap-2 p-3 rounded-xl" style={{ background: 'var(--bg-inset)', border: '1px solid var(--border-subtle)' }}>
+              <BookMarked size={16} style={{ color: 'var(--bias-center)', opacity: 0.6 }} />
+              <span className="text-[10px] text-center leading-tight" style={{ color: 'var(--text-muted)' }}>Bookmark stories to track</span>
             </div>
-            <div className="flex flex-col items-center gap-2 p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-              <Zap size={16} className="text-amber-400/60" />
-              <span className="text-[10px] text-white/30 text-center leading-tight">Personalized daily digest</span>
+            <div className="flex flex-col items-center gap-2 p-3 rounded-xl" style={{ background: 'var(--bg-inset)', border: '1px solid var(--border-subtle)' }}>
+              <Zap size={16} style={{ color: 'var(--warning-text)', opacity: 0.6 }} />
+              <span className="text-[10px] text-center leading-tight" style={{ color: 'var(--text-muted)' }}>Personalized daily digest</span>
             </div>
           </div>
         )}
 
-        <p className="text-center text-[11px] text-white/15">
+        <p className="text-center text-[11px]" style={{ color: 'var(--text-faint)' }}>
           {mode === 'signup'
             ? 'Already have an account? Switch to Sign in above.'
             : "Don't have an account? Switch to Sign up above."}

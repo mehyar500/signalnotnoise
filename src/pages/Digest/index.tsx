@@ -22,7 +22,7 @@ export function Digest() {
     return (
       <div className="space-y-6">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl" style={{ background: 'rgba(99,102,241,0.1)' }}>
+          <div className="p-2 rounded-xl" style={{ background: 'var(--accent-bg)' }}>
             <BookOpen size={18} style={{ color: 'var(--accent-text)' }} />
           </div>
           <div>
@@ -57,7 +57,7 @@ export function Digest() {
     <div className="space-y-6 max-w-3xl mx-auto">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl" style={{ background: 'rgba(99,102,241,0.1)' }}>
+          <div className="p-2 rounded-xl" style={{ background: 'var(--accent-bg)' }}>
             <BookOpen size={18} style={{ color: 'var(--accent-text)' }} />
           </div>
           <div>
@@ -70,7 +70,7 @@ export function Digest() {
         </div>
         {isDone && (
           <span className="flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full"
-            style={{ background: 'rgba(52,211,153,0.1)', color: '#34d399' }}
+            style={{ background: 'var(--success-bg)', color: 'var(--success-text)' }}
           >
             <CheckCircle size={12} />
             Caught up
@@ -83,9 +83,9 @@ export function Digest() {
           {digest.keyTopics.map(topic => (
             <span key={topic} className="text-[11px] px-2.5 py-1 rounded-full font-medium"
               style={{
-                background: 'rgba(99,102,241,0.1)',
+                background: 'var(--accent-bg)',
                 color: 'var(--accent-text)',
-                border: '1px solid rgba(99,102,241,0.2)',
+                border: '1px solid var(--border-primary)',
               }}
             >
               {topic}
@@ -107,10 +107,11 @@ export function Digest() {
       {!isDone && (
         <button
           onClick={() => dispatch(markDone())}
-          className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-semibold text-sm transition-all text-white shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+          className="w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-semibold text-sm transition-all shadow-lg hover:-translate-y-0.5 active:translate-y-0"
           style={{
-            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-            boxShadow: '0 4px 20px rgba(99,102,241,0.3)',
+            background: 'linear-gradient(135deg, var(--accent-solid), var(--accent-solid-hover))',
+            color: 'var(--text-inverse)',
+            boxShadow: '0 4px 20px rgba(217,119,6,0.3)',
           }}
         >
           <CheckCircle size={16} />

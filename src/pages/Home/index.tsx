@@ -17,17 +17,17 @@ export function Home() {
     <div className="space-y-5">
       <div className="flex items-center justify-between gap-4">
         {stats && (
-          <div className="flex items-center gap-2 flex-wrap text-[10px] text-white/25">
-            <Radio size={8} className="text-indigo-400/40" />
+          <div className="flex items-center gap-2 flex-wrap text-[10px]" style={{ color: 'var(--text-muted)' }}>
+            <Radio size={8} style={{ color: 'var(--accent-text)', opacity: 0.5 }} />
             <span>{stats.activeSources} feeds</span>
-            <span className="text-white/10">·</span>
+            <span style={{ color: 'var(--text-faint)' }}>·</span>
             <span>{stats.totalArticles.toLocaleString()} articles</span>
-            <span className="text-white/10">·</span>
+            <span style={{ color: 'var(--text-faint)' }}>·</span>
             <span>{stats.activeClusters.toLocaleString()} stories</span>
             {stats.aiAvailable && (
               <>
-                <span className="text-white/10">·</span>
-                <span className="flex items-center gap-0.5 text-emerald-400/50">
+                <span style={{ color: 'var(--text-faint)' }}>·</span>
+                <span className="flex items-center gap-0.5" style={{ color: 'var(--success-text)', opacity: 0.6 }}>
                   <Cpu size={8} />
                   AI
                 </span>
@@ -38,7 +38,8 @@ export function Home() {
         <button
           onClick={() => triggerSync()}
           disabled={isSyncing}
-          className="text-[10px] text-white/20 hover:text-indigo-400 flex items-center gap-1 transition-colors disabled:opacity-50 shrink-0"
+          className="text-[10px] flex items-center gap-1 transition-colors disabled:opacity-50 shrink-0"
+          style={{ color: 'var(--text-muted)' }}
         >
           <RefreshCw size={9} className={isSyncing ? 'animate-spin' : ''} />
           {isSyncing ? 'Syncing' : 'Sync'}
@@ -48,19 +49,20 @@ export function Home() {
       {hasDigest && !isDone && (
         <div
           onClick={() => dispatch(openDigest())}
-          className="group cursor-pointer rounded-2xl p-4 sm:p-5 border border-indigo-500/20 bg-gradient-to-r from-indigo-500/[0.06] to-purple-500/[0.06] hover:from-indigo-500/[0.10] hover:to-purple-500/[0.10] transition-all duration-300"
+          className="group cursor-pointer rounded-2xl p-4 sm:p-5 border transition-all duration-300"
+          style={{ borderColor: 'rgba(99,102,241,0.2)', background: 'var(--accent-bg)' }}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20">
-                <Zap size={16} className="text-indigo-400" />
+              <div className="p-2 rounded-xl" style={{ background: 'var(--accent-bg)' }}>
+                <Zap size={16} style={{ color: 'var(--accent-text)' }} />
               </div>
               <div>
-                <p className="font-semibold text-white text-sm">One-Minute World</p>
-                <p className="text-white/35 text-[11px] mt-0.5">Today's digest is ready</p>
+                <p className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>One-Minute World</p>
+                <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>Today's digest is ready</p>
               </div>
             </div>
-            <span className="text-[11px] text-indigo-400/70 font-medium group-hover:text-indigo-300 transition-colors">
+            <span className="text-[11px] font-medium transition-colors" style={{ color: 'var(--accent-text)' }}>
               Read now &rarr;
             </span>
           </div>

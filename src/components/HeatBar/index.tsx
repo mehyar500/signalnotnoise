@@ -10,13 +10,13 @@ interface HeatBarProps {
 }
 
 function getHeatLabel(heat: number, substance: number): { text: string; advisory: string; color: string } {
-  if (heat > 0.7 && substance < 0.3) return { text: 'High heat, low substance', advisory: 'Read skeptically.', color: '#fb923c' };
-  if (heat > 0.7 && substance < 0.5) return { text: 'High heat, low substance', advisory: 'Emotionally charged reporting.', color: '#fb923c' };
-  if (heat > 0.7 && substance > 0.7) return { text: 'High heat, high substance', advisory: 'Important and well-reported.', color: '#fbbf24' };
-  if (heat < 0.3 && substance > 0.7) return { text: 'Low heat, high substance', advisory: 'Data-driven coverage.', color: '#22d3ee' };
-  if (heat < 0.4 && substance > 0.5) return { text: 'Low heat, solid substance', advisory: 'Measured, factual reporting.', color: '#22d3ee' };
+  if (heat > 0.7 && substance < 0.3) return { text: 'High heat, low substance', advisory: 'Read skeptically.', color: 'var(--heat-text)' };
+  if (heat > 0.7 && substance < 0.5) return { text: 'High heat, low substance', advisory: 'Emotionally charged reporting.', color: 'var(--heat-text)' };
+  if (heat > 0.7 && substance > 0.7) return { text: 'High heat, high substance', advisory: 'Important and well-reported.', color: 'var(--warning-text)' };
+  if (heat < 0.3 && substance > 0.7) return { text: 'Low heat, high substance', advisory: 'Data-driven coverage.', color: 'var(--substance-text)' };
+  if (heat < 0.4 && substance > 0.5) return { text: 'Low heat, solid substance', advisory: 'Measured, factual reporting.', color: 'var(--substance-text)' };
   if (heat < 0.3 && substance < 0.3) return { text: 'Low heat, low substance', advisory: 'Light coverage.', color: 'var(--text-tertiary)' };
-  return { text: 'Balanced coverage', advisory: 'Standard reporting.', color: '#a78bfa' };
+  return { text: 'Balanced coverage', advisory: 'Standard reporting.', color: 'var(--accent-text)' };
 }
 
 export function HeatBar({ heat, substance, className, showLabels = false, compact = false }: HeatBarProps) {
@@ -28,13 +28,13 @@ export function HeatBar({ heat, substance, className, showLabels = false, compac
     return (
       <div className={clsx('flex items-center gap-3', className)}>
         <div className="flex items-center gap-1">
-          <Flame size={10} style={{ color: '#fb923c', opacity: 0.7 }} />
+          <Flame size={10} style={{ color: 'var(--heat-text)', opacity: 0.7 }} />
           <div className="w-12 h-1 rounded-full overflow-hidden" style={{ background: 'var(--spectrum-track)' }}>
             <div className="h-full rounded-full" style={{ width: `${heatPct}%`, background: 'linear-gradient(to right, #f97316, #ef4444)' }} />
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <Beaker size={10} style={{ color: '#22d3ee', opacity: 0.7 }} />
+          <Beaker size={10} style={{ color: 'var(--substance-text)', opacity: 0.7 }} />
           <div className="w-12 h-1 rounded-full overflow-hidden" style={{ background: 'var(--spectrum-track)' }}>
             <div className="h-full rounded-full" style={{ width: `${substancePct}%`, background: 'linear-gradient(to right, #06b6d4, #6366f1)' }} />
           </div>
@@ -47,8 +47,8 @@ export function HeatBar({ heat, substance, className, showLabels = false, compac
     <div className={clsx('space-y-2', className)}>
       <div className="flex items-center gap-2.5">
         <div className="flex items-center gap-1.5 w-20">
-          <Flame size={12} style={{ color: '#fb923c', opacity: 0.8 }} />
-          <span className="text-xs font-medium tabular-nums" style={{ color: '#fb923c' }}>{heatPct}%</span>
+          <Flame size={12} style={{ color: 'var(--heat-text)', opacity: 0.8 }} />
+          <span className="text-xs font-medium tabular-nums" style={{ color: 'var(--heat-text)' }}>{heatPct}%</span>
         </div>
         <div className="flex-1 h-1.5 rounded-full relative overflow-hidden" style={{ background: 'var(--spectrum-track)' }}>
           <div className="absolute inset-y-0 left-0 rounded-full transition-all duration-500" style={{ width: `${heatPct}%`, background: 'linear-gradient(to right, #f97316, #ef4444)' }} />
@@ -57,8 +57,8 @@ export function HeatBar({ heat, substance, className, showLabels = false, compac
       </div>
       <div className="flex items-center gap-2.5">
         <div className="flex items-center gap-1.5 w-20">
-          <Beaker size={12} style={{ color: '#22d3ee', opacity: 0.8 }} />
-          <span className="text-xs font-medium tabular-nums" style={{ color: '#22d3ee' }}>{substancePct}%</span>
+          <Beaker size={12} style={{ color: 'var(--substance-text)', opacity: 0.8 }} />
+          <span className="text-xs font-medium tabular-nums" style={{ color: 'var(--substance-text)' }}>{substancePct}%</span>
         </div>
         <div className="flex-1 h-1.5 rounded-full relative overflow-hidden" style={{ background: 'var(--spectrum-track)' }}>
           <div className="absolute inset-y-0 left-0 rounded-full transition-all duration-500" style={{ width: `${substancePct}%`, background: 'linear-gradient(to right, #06b6d4, #6366f1)' }} />

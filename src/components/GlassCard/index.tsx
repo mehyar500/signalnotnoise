@@ -23,7 +23,7 @@ export function GlassCard({ children, className, onClick, hoverable = false, glo
       style={{
         background: 'var(--bg-card)',
         borderColor: 'var(--border-primary)',
-        ...(hoverable ? {} : {}),
+        boxShadow: 'var(--shadow-card)',
       }}
       onMouseEnter={hoverable ? (e) => {
         (e.currentTarget as HTMLElement).style.background = 'var(--bg-card-hover)';

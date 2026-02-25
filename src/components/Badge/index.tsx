@@ -1,6 +1,6 @@
 import { clsx } from 'clsx';
 
-type BadgeVariant = 'left' | 'center-left' | 'center' | 'center-right' | 'right' | 'international' | 'heat' | 'substance' | 'default';
+type BadgeVariant = 'left' | 'center-left' | 'center' | 'center-right' | 'right' | 'international' | 'heat' | 'substance' | 'topic' | 'default';
 
 interface BadgeProps {
   label: string;
@@ -10,14 +10,15 @@ interface BadgeProps {
 }
 
 const variantColors: Record<BadgeVariant, { bg: string; text: string; border: string }> = {
-  left: { bg: 'rgba(59,130,246,0.12)', text: '#60a5fa', border: 'rgba(59,130,246,0.25)' },
-  'center-left': { bg: 'rgba(99,102,241,0.12)', text: '#818cf8', border: 'rgba(99,102,241,0.25)' },
-  center: { bg: 'rgba(139,92,246,0.12)', text: '#a78bfa', border: 'rgba(139,92,246,0.25)' },
-  'center-right': { bg: 'rgba(236,72,153,0.12)', text: '#f472b6', border: 'rgba(236,72,153,0.25)' },
-  right: { bg: 'rgba(239,68,68,0.12)', text: '#f87171', border: 'rgba(239,68,68,0.25)' },
-  international: { bg: 'rgba(16,185,129,0.12)', text: '#34d399', border: 'rgba(16,185,129,0.25)' },
-  heat: { bg: 'rgba(249,115,22,0.12)', text: '#fb923c', border: 'rgba(249,115,22,0.25)' },
-  substance: { bg: 'rgba(6,182,212,0.12)', text: '#22d3ee', border: 'rgba(6,182,212,0.25)' },
+  left: { bg: 'var(--bias-left-bg)', text: 'var(--bias-left)', border: 'var(--bias-left-border)' },
+  'center-left': { bg: 'var(--bias-center-bg)', text: 'var(--bias-center)', border: 'var(--bias-center-border)' },
+  center: { bg: 'var(--bias-center-bg)', text: 'var(--bias-center)', border: 'var(--bias-center-border)' },
+  'center-right': { bg: 'var(--bias-right-bg)', text: 'var(--bias-right)', border: 'var(--bias-right-border)' },
+  right: { bg: 'var(--bias-right-bg)', text: 'var(--bias-right)', border: 'var(--bias-right-border)' },
+  international: { bg: 'var(--bias-intl-bg)', text: 'var(--bias-intl)', border: 'var(--bias-intl-border)' },
+  heat: { bg: 'var(--warning-bg)', text: 'var(--heat-text)', border: 'var(--warning-border)' },
+  substance: { bg: 'var(--accent-bg)', text: 'var(--substance-text)', border: 'var(--border-primary)' },
+  topic: { bg: 'var(--bg-elevated)', text: 'var(--text-tertiary)', border: 'var(--border-primary)' },
   default: { bg: 'var(--bg-elevated)', text: 'var(--text-tertiary)', border: 'var(--border-primary)' },
 };
 

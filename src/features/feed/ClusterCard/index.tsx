@@ -12,11 +12,11 @@ interface ClusterCardProps {
 function MiniScores({ heat, substance }: { heat: number; substance: number }) {
   return (
     <div className="flex items-center gap-2.5">
-      <span className="flex items-center gap-1 text-[10px]" style={{ color: '#fb923c', opacity: 0.8 }}>
+      <span className="flex items-center gap-1 text-[10px]" style={{ color: 'var(--heat-text)', opacity: 0.8 }}>
         <Flame size={9} />
         {Math.round(heat * 100)}
       </span>
-      <span className="flex items-center gap-1 text-[10px]" style={{ color: '#22d3ee', opacity: 0.8 }}>
+      <span className="flex items-center gap-1 text-[10px]" style={{ color: 'var(--substance-text)', opacity: 0.8 }}>
         <Beaker size={9} />
         {Math.round(substance * 100)}
       </span>
@@ -36,7 +36,8 @@ function SourceCount({ count }: { count: number }) {
 
 function BlindspotBadge() {
   return (
-    <span className="flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style={{ color: '#fbbf24', background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.2)' }}>
+    <span className="flex items-center gap-1 text-[9px] font-semibold px-1.5 py-0.5 rounded-full"
+      style={{ color: 'var(--warning-text)', background: 'var(--warning-bg)', border: '1px solid var(--warning-border)' }}>
       <AlertTriangle size={8} />
       BLINDSPOT
     </span>
@@ -82,25 +83,25 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
         ) : (
           <div className="absolute inset-0" style={{ background: 'var(--bg-elevated)' }} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
+        <div className="absolute inset-0" style={{ background: 'var(--hero-gradient)' }} />
 
         <div className="relative h-full flex flex-col justify-end p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-3 flex-wrap">
-            <span className="text-[11px] font-bold tracking-widest text-indigo-300 uppercase">{cluster.topic}</span>
+            <span className="text-[11px] font-bold tracking-widest uppercase" style={{ color: 'var(--accent-text)' }}>{cluster.topic}</span>
             {blindspot.isBlindsot && <BlindspotBadge />}
-            <span className="text-[10px] text-white/40">{timeAgo}</span>
+            <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>{timeAgo}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white leading-tight mb-3 max-w-2xl group-hover:text-indigo-100 transition-colors">
+          <h2 className="text-2xl sm:text-3xl font-bold leading-tight mb-3 max-w-2xl transition-colors" style={{ color: '#ffffff' }}>
             {cluster.representativeHeadline}
           </h2>
           {cluster.summary && (
-            <p className="text-sm text-white/60 leading-relaxed mb-4 max-w-xl line-clamp-2">{cluster.summary}</p>
+            <p className="text-sm leading-relaxed mb-4 max-w-xl line-clamp-2" style={{ color: 'rgba(255,255,255,0.6)' }}>{cluster.summary}</p>
           )}
           <div className="flex items-center gap-4 flex-wrap">
             <SourceCount count={cluster.articleCount} />
             <CoverageSpectrum breakdown={cluster.sourceBreakdown} size="sm" />
             <MiniScores heat={cluster.heatScore} substance={cluster.substanceScore} />
-            <ArrowUpRight size={16} className="text-white/30 group-hover:text-indigo-400 transition-colors ml-auto" />
+            <ArrowUpRight size={16} className="transition-colors ml-auto" style={{ color: 'rgba(255,255,255,0.3)' }} />
           </div>
         </div>
       </div>
@@ -112,7 +113,7 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
       <div
         onClick={() => navigate(`/cluster/${cluster.id}`)}
         className="group cursor-pointer relative rounded-2xl overflow-hidden flex flex-col transition-all duration-300 animate-fade-in h-full border"
-        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+        style={{ background: 'var(--bg-card)', borderColor: 'var(--border-primary)', boxShadow: 'var(--shadow-card)' }}
         onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.background = 'var(--bg-card-hover)'; }}
         onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-primary)'; e.currentTarget.style.background = 'var(--bg-card)'; }}
       >
@@ -123,7 +124,8 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
             <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: 'var(--accent-text)', opacity: 0.8 }}>{cluster.topic}</span>
             {blindspot.isBlindsot && <BlindspotBadge />}
             {cluster.heatScore > 0.7 && (
-              <span className="flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded-full font-medium" style={{ color: '#fb923c', background: 'rgba(249,115,22,0.12)' }}>
+              <span className="flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded-full font-medium"
+                style={{ color: 'var(--heat-text)', background: 'rgba(249,115,22,0.12)' }}>
                 <Flame size={7} /> HOT
               </span>
             )}
@@ -134,7 +136,7 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
           {cluster.summary && (
             <p className="text-xs leading-relaxed mb-4 line-clamp-2 flex-1" style={{ color: 'var(--text-tertiary)' }}>{cluster.summary}</p>
           )}
-          <div className="mt-auto pt-3 border-t space-y-2" style={{ borderColor: 'var(--border-primary)' }}>
+          <div className="mt-auto pt-3 space-y-2" style={{ borderTop: '1px solid var(--border-primary)' }}>
             <div className="flex items-center justify-between">
               <SourceCount count={cluster.articleCount} />
               <div className="flex items-center gap-1 text-[10px]" style={{ color: 'var(--text-muted)' }}>
@@ -156,7 +158,7 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
     <div
       onClick={() => navigate(`/cluster/${cluster.id}`)}
       className="group cursor-pointer rounded-2xl overflow-hidden animate-fade-in h-full flex flex-col border transition-all duration-300"
-      style={{ background: 'var(--bg-card)', borderColor: 'var(--border-primary)' }}
+      style={{ background: 'var(--bg-card)', borderColor: 'var(--border-primary)', boxShadow: 'var(--shadow-card)' }}
       onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--border-hover)'; e.currentTarget.style.background = 'var(--bg-card-hover)'; }}
       onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-primary)'; e.currentTarget.style.background = 'var(--bg-card)'; }}
     >
@@ -166,7 +168,7 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
         <div className="flex items-center gap-2 mb-1.5 flex-wrap">
           <span className="text-[9px] font-bold tracking-widest uppercase truncate" style={{ color: 'var(--accent-text)', opacity: 0.7 }}>{cluster.topic}</span>
           {blindspot.isBlindsot && <BlindspotBadge />}
-          {cluster.heatScore > 0.7 && <Flame size={8} style={{ color: '#fb923c', opacity: 0.7 }} className="shrink-0" />}
+          {cluster.heatScore > 0.7 && <Flame size={8} style={{ color: 'var(--heat-text)', opacity: 0.7 }} className="shrink-0" />}
         </div>
         <h3 className="text-[13px] font-semibold leading-snug mb-1.5 transition-colors line-clamp-2" style={{ color: 'var(--text-primary)' }}>
           {cluster.representativeHeadline}
@@ -174,7 +176,7 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
         {cluster.summary && (
           <p className="text-[11px] leading-relaxed mb-2 line-clamp-2 flex-1" style={{ color: 'var(--text-muted)' }}>{cluster.summary}</p>
         )}
-        <div className="mt-auto pt-2 border-t space-y-1.5" style={{ borderColor: 'var(--border-primary)' }}>
+        <div className="mt-auto pt-2 space-y-1.5" style={{ borderTop: '1px solid var(--border-primary)' }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1 text-[10px]" style={{ color: 'var(--text-tertiary)' }}>
               <Users size={10} /> {cluster.articleCount} sources
