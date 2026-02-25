@@ -1,8 +1,7 @@
 import { type ReactNode } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Newspaper, Search, Zap, CheckCircle, User, LogOut, Sun, Moon, Eye, BookOpen } from 'lucide-react';
+import { Newspaper, Search, User, LogOut, Sun, Moon, Eye, BookOpen, Settings } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { openDigest } from '@/app/digestSlice';
 import { clearAuth } from '@/app/authSlice';
 import { toggleTheme } from '@/app/themeSlice';
 import { DigestPlayer } from '@/features/digest/DigestPlayer';
@@ -15,7 +14,7 @@ export function AppLayout({ children }: AppLayoutProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const { isOpen, isDone } = useAppSelector(s => s.digest);
+  const { isOpen } = useAppSelector(s => s.digest);
   const { user } = useAppSelector(s => s.auth);
   const { theme } = useAppSelector(s => s.theme);
 
@@ -50,21 +49,24 @@ export function AppLayout({ children }: AppLayoutProps) {
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
-            <button
-              onClick={() => !isDone && dispatch(openDigest())}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-medium transition-all"
-              style={{
-                color: isDone ? '#34d399' : 'var(--accent-text)',
-                background: isDone ? 'rgba(52,211,153,0.1)' : 'transparent',
-              }}
-              title={isDone ? "You're caught up" : 'Daily digest'}
-            >
-              {isDone ? <CheckCircle size={14} /> : <Zap size={14} />}
-              <span className="hidden sm:inline">{isDone ? "Caught up" : "Digest"}</span>
-            </button>
-
             {user ? (
               <div className="flex items-center gap-1">
+                {user.isAdmin && (
+                  <button
+                    onClick={() => navigate('/admin')}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all"
+                    style={{
+                      color: location.pathname.startsWith('/admin') ? '#f59e0b' : 'var(--text-muted)',
+                      background: location.pathname.startsWith('/admin') ? 'rgba(245,158,11,0.1)' : 'transparent',
+                    }}
+                    onMouseEnter={(e) => { if (!location.pathname.startsWith('/admin')) { e.currentTarget.style.color = '#f59e0b'; e.currentTarget.style.background = 'rgba(245,158,11,0.08)'; } }}
+                    onMouseLeave={(e) => { if (!location.pathname.startsWith('/admin')) { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'transparent'; } }}
+                    title="Admin panel"
+                  >
+                    <Settings size={14} />
+                    <span className="hidden sm:inline">Admin</span>
+                  </button>
+                )}
                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border" style={{ background: 'var(--bg-elevated)', borderColor: 'var(--border-primary)' }}>
                   <div className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-white" style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
                     {(user.displayName || user.email)[0].toUpperCase()}

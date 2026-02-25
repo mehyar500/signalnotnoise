@@ -8,6 +8,7 @@ import { Research } from '@/pages/Research';
 import { Auth } from '@/pages/Auth';
 import { Blindspot } from '@/pages/Blindspot';
 import { Digest } from '@/pages/Digest';
+import { Admin } from '@/pages/Admin';
 
 export function App() {
   return (
@@ -20,6 +21,7 @@ export function App() {
             <Route path="/blindspot" element={<Blindspot />} />
             <Route path="/digest" element={<Digest />} />
             <Route path="/research" element={<Research />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/auth" element={<Auth />} />
           </Routes>
         </AppLayout>
