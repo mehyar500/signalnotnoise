@@ -3,7 +3,9 @@ import cors from 'cors';
 import cron from 'node-cron';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { query } from './db.js';
 import { initSchema } from './schema.js';
 import { seedSources } from './seed-sources.js';
@@ -11,8 +13,12 @@ import { syncAllFeeds, enrichClustersWithAI, generateDailyDigest } from './servi
 import { isAIAvailable } from './services/cloudflare-ai.js';
 import { validateFeed } from './services/feed-validator.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const PORT = 3001;
+const PORT = parseInt(process.env.PORT || '3001', 10);
+const IS_PROD = process.env.NODE_ENV === 'production';
 const DEFAULT_USER_ID = '00000000-0000-0000-0000-000000000000';
 const JWT_SECRET = process.env.JWT_SECRET || 'axial-news-jwt-secret-key-2026';
 
@@ -50,6 +56,11 @@ async function requireAdmin(req: express.Request, res: express.Response): Promis
 
 app.use(cors());
 app.use(express.json());
+
+const distPath = path.resolve(__dirname, '..', 'dist');
+if (IS_PROD && existsSync(distPath)) {
+  app.use(express.static(distPath));
+}
 
 app.get('/api/v1/health', (_req, res) => {
   res.json({
@@ -868,12 +879,19 @@ function formatCluster(row: Record<string, unknown>) {
   };
 }
 
+if (IS_PROD && existsSync(distPath)) {
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
 async function startServer() {
   console.log('[server] Initializing database...');
   await initSchema();
 
-  app.listen(PORT, '127.0.0.1', () => {
-    console.log(`[server] API running on http://localhost:${PORT}`);
+  const host = IS_PROD ? '0.0.0.0' : '127.0.0.1';
+  app.listen(PORT, host, () => {
+    console.log(`[server] API running on http://${host}:${PORT} (${IS_PROD ? 'production' : 'development'})`);
   });
 
   (async () => {

@@ -8,7 +8,8 @@
     "dev:frontend": "vite",
     "dev:backend": "tsx server/index.ts",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "NODE_ENV=production PORT=5000 tsx server/index.ts"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
