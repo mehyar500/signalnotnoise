@@ -47,10 +47,10 @@ server/                 # Backend (Express.js API)
 
 ### Database Schema
 - **sources**: 153 RSS feeds with name, url, bias label, category
-- **articles**: Ingested articles with title, content, source, cluster assignment
-- **clusters**: Grouped stories with topic, summary, bias analysis, scores
+- **articles**: Ingested articles with title, content, source, image_url, cluster assignment
+- **clusters**: Grouped stories with topic, summary, bias analysis, scores, hero image (from latest article)
 - **daily_digests**: Generated daily summaries
-- **users, collections, bookmarks**: User features (future)
+- **users, collections, bookmarks**: Research collections system (working — CRUD for collections, bookmark clusters)
 
 ## Core Concept
 
@@ -88,3 +88,14 @@ npm run dev   # Starts both backend (port 3001) and frontend (port 5000)
 - Accent: Indigo/Purple gradient
 - Left bias: Blue | Center: Purple | Right: Red
 - Heat: Orange | Substance: Cyan
+- Layout: `max-w-5xl` container (1024px)
+
+## Feed Layout
+
+Magazine-style grid with 3 card variants:
+- **Hero** (1st story): Full-width, large image background with gradient overlay, bold headline
+- **Featured** (stories 2-5): 2-column grid, image header cards with summaries
+- **Standard** (remaining): 3-column grid, compact cards with optional thumbnail
+- Clusters include `heroImage` from the most recent article with an image
+- Articles store `image_url` extracted from RSS media:content, media:thumbnail, enclosure, or inline img tags
+- BiasBar: colored segmented bar showing left/center/right/intl source mix

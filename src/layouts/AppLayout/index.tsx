@@ -37,7 +37,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       />
 
       <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#0f172a]/80 backdrop-blur-2xl">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <button
             onClick={() => navigate('/')}
             className="font-bold text-xl tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent hover:opacity-80 transition-opacity"
@@ -61,7 +61,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       </header>
 
       <nav className="sticky top-14 z-30 border-b border-white/[0.06] bg-[#0f172a]/70 backdrop-blur-2xl">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 flex gap-1">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex gap-1">
           {navItems.map(({ path, label, icon: Icon }) => {
             const isActive = location.pathname === path || (path !== '/' && location.pathname.startsWith(path));
             return (
@@ -86,7 +86,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         </div>
       </nav>
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
         {children}
       </main>
 

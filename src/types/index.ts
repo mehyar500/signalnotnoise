@@ -35,6 +35,7 @@ export interface Cluster {
   biasAnalysis: BiasAnalysis;
   heatScore: number;
   substanceScore: number;
+  heroImage: string | null;
   firstArticleAt: string;
   lastArticleAt: string;
   articles: Article[];

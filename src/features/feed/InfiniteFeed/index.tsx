@@ -75,11 +75,32 @@ export function InfiniteFeed() {
     );
   }
 
+  const hero = allClusters[0];
+  const featured = allClusters.slice(1, 5);
+  const rest = allClusters.slice(5);
+
   return (
-    <div className="space-y-3">
-      {allClusters.map((cluster, i) => (
-        <ClusterCard key={cluster.id} cluster={cluster} index={i} />
-      ))}
+    <div className="space-y-4">
+      {hero && (
+        <ClusterCard cluster={hero} variant="hero" />
+      )}
+
+      {featured.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {featured.map(cluster => (
+            <ClusterCard key={cluster.id} cluster={cluster} variant="featured" />
+          ))}
+        </div>
+      )}
+
+      {rest.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {rest.map(cluster => (
+            <ClusterCard key={cluster.id} cluster={cluster} variant="standard" />
+          ))}
+        </div>
+      )}
+
       {hasMore && (
         <div ref={observerRef} className="flex justify-center py-8">
           {isFetching && <Loader2 size={20} className="animate-spin text-indigo-400/60" />}
