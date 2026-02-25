@@ -9,6 +9,7 @@ import { isAIAvailable } from './services/cloudflare-ai.js';
 
 const app = express();
 const PORT = 3001;
+const DEFAULT_USER_ID = '00000000-0000-0000-0000-000000000000';
 
 app.use(cors());
 app.use(express.json());
@@ -151,6 +152,215 @@ app.get('/api/v1/stats', async (_req, res) => {
   }
 });
 
+async function ensureDefaultUser() {
+  const existing = await query(`SELECT id FROM users WHERE id = $1`, [DEFAULT_USER_ID]);
+  if (existing.rows.length === 0) {
+    await query(
+      `INSERT INTO users (id, email) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING`,
+      [DEFAULT_USER_ID, 'default@axial.news']
+    );
+  }
+}
+
+app.get('/api/v1/collections', async (_req, res) => {
+  try {
+    await ensureDefaultUser();
+    const result = await query(
+      `SELECT c.id, c.title, c.created_at, c.updated_at,
+              COUNT(b.id) as bookmark_count,
+              MAX(b.created_at) as last_bookmark_at
+       FROM collections c
+       LEFT JOIN bookmarks b ON b.collection_id = c.id
+       WHERE c.user_id = $1
+       GROUP BY c.id
+       ORDER BY c.updated_at DESC`,
+      [DEFAULT_USER_ID]
+    );
+
+    res.json(result.rows.map(r => ({
+      id: r.id,
+      title: r.title,
+      bookmarkCount: parseInt(r.bookmark_count) || 0,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at,
+      lastBookmarkAt: r.last_bookmark_at,
+    })));
+  } catch (err) {
+    console.error('[api] /collections error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/v1/collections', async (req, res) => {
+  try {
+    await ensureDefaultUser();
+    const { title } = req.body;
+    if (!title || typeof title !== 'string' || title.trim().length === 0) {
+      return res.status(400).json({ error: 'Title is required' });
+    }
+
+    const result = await query(
+      `INSERT INTO collections (id, title, user_id, created_at, updated_at)
+       VALUES (gen_random_uuid(), $1, $2, NOW(), NOW())
+       RETURNING id, title, created_at, updated_at`,
+      [title.trim(), DEFAULT_USER_ID]
+    );
+
+    const r = result.rows[0];
+    res.status(201).json({
+      id: r.id,
+      title: r.title,
+      bookmarkCount: 0,
+      createdAt: r.created_at,
+      updatedAt: r.updated_at,
+    });
+  } catch (err) {
+    console.error('[api] POST /collections error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/v1/collections/:id', async (req, res) => {
+  try {
+    const collectionRes = await query(
+      `SELECT id, title, created_at, updated_at FROM collections WHERE id = $1 AND user_id = $2`,
+      [req.params.id, DEFAULT_USER_ID]
+    );
+
+    if (collectionRes.rows.length === 0) {
+      return res.status(404).json({ error: 'Collection not found' });
+    }
+
+    const bookmarksRes = await query(
+      `SELECT b.id as bookmark_id, b.note, b.created_at as bookmarked_at,
+              c.id, c.topic, c.topic_slug, c.representative_headline, c.summary,
+              c.bias_analysis, c.avg_heat_score, c.avg_substance_score,
+              c.article_count, c.source_count, c.left_count, c.center_count,
+              c.right_count, c.international_count,
+              c.first_article_at, c.last_article_at
+       FROM bookmarks b
+       JOIN clusters c ON b.cluster_id = c.id
+       WHERE b.collection_id = $1
+       ORDER BY b.created_at DESC`,
+      [req.params.id]
+    );
+
+    const col = collectionRes.rows[0];
+    res.json({
+      id: col.id,
+      title: col.title,
+      createdAt: col.created_at,
+      updatedAt: col.updated_at,
+      bookmarks: bookmarksRes.rows.map(r => ({
+        bookmarkId: r.bookmark_id,
+        note: r.note,
+        bookmarkedAt: r.bookmarked_at,
+        cluster: formatCluster(r),
+      })),
+    });
+  } catch (err) {
+    console.error('[api] /collections/:id error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.delete('/api/v1/collections/:id', async (req, res) => {
+  try {
+    await query(`DELETE FROM bookmarks WHERE collection_id = $1`, [req.params.id]);
+    const result = await query(
+      `DELETE FROM collections WHERE id = $1 AND user_id = $2 RETURNING id`,
+      [req.params.id, DEFAULT_USER_ID]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Collection not found' });
+    }
+    res.json({ deleted: true });
+  } catch (err) {
+    console.error('[api] DELETE /collections/:id error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post('/api/v1/bookmarks', async (req, res) => {
+  try {
+    const { clusterId, collectionId, note } = req.body;
+    if (!clusterId || !collectionId) {
+      return res.status(400).json({ error: 'clusterId and collectionId are required' });
+    }
+
+    const existing = await query(
+      `SELECT id FROM bookmarks WHERE collection_id = $1 AND cluster_id = $2`,
+      [collectionId, clusterId]
+    );
+
+    if (existing.rows.length > 0) {
+      return res.status(409).json({ error: 'Already bookmarked', bookmarkId: existing.rows[0].id });
+    }
+
+    const result = await query(
+      `INSERT INTO bookmarks (id, collection_id, cluster_id, note, created_at)
+       VALUES (gen_random_uuid(), $1, $2, $3, NOW())
+       RETURNING id, collection_id, cluster_id, note, created_at`,
+      [collectionId, clusterId, note || null]
+    );
+
+    const b = result.rows[0];
+    await query(`UPDATE collections SET updated_at = NOW() WHERE id = $1`, [collectionId]);
+
+    res.status(201).json({
+      id: b.id,
+      collectionId: b.collection_id,
+      clusterId: b.cluster_id,
+      note: b.note,
+      createdAt: b.created_at,
+    });
+  } catch (err) {
+    console.error('[api] POST /bookmarks error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.delete('/api/v1/bookmarks/:id', async (req, res) => {
+  try {
+    const result = await query(
+      `DELETE FROM bookmarks WHERE id = $1 RETURNING id, collection_id`,
+      [req.params.id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Bookmark not found' });
+    }
+
+    await query(`UPDATE collections SET updated_at = NOW() WHERE id = $1`, [result.rows[0].collection_id]);
+    res.json({ deleted: true });
+  } catch (err) {
+    console.error('[api] DELETE /bookmarks/:id error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.get('/api/v1/bookmarks/check/:clusterId', async (req, res) => {
+  try {
+    const result = await query(
+      `SELECT b.id, b.collection_id, c.title as collection_title
+       FROM bookmarks b
+       JOIN collections c ON b.collection_id = c.id
+       WHERE b.cluster_id = $1 AND c.user_id = $2`,
+      [req.params.clusterId, DEFAULT_USER_ID]
+    );
+
+    res.json(result.rows.map(r => ({
+      bookmarkId: r.id,
+      collectionId: r.collection_id,
+      collectionTitle: r.collection_title,
+    })));
+  } catch (err) {
+    console.error('[api] /bookmarks/check error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.post('/api/v1/admin/sync', async (_req, res) => {
   try {
     const result = await syncAllFeeds();
@@ -206,7 +416,7 @@ function formatCluster(row: Record<string, unknown>) {
     },
     firstArticleAt: row.first_article_at as string,
     lastArticleAt: row.last_article_at as string,
-    articles: [],
+    articles: [] as Record<string, unknown>[],
   };
 }
 

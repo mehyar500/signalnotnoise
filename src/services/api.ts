@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Cluster, DailyDigest } from '@/types';
+import type { Cluster, DailyDigest, Collection, CollectionDetail, Bookmark, BookmarkCheck } from '@/types';
 
 interface GetClustersResponse {
   items: Cluster[];
@@ -17,7 +17,7 @@ interface Stats {
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
-  tagTypes: ['Clusters', 'Digest', 'Stats'],
+  tagTypes: ['Clusters', 'Digest', 'Stats', 'Collections', 'Bookmarks'],
   endpoints: (builder) => ({
     getClusters: builder.query<GetClustersResponse, { cursor?: string; limit?: number }>({
       query: ({ cursor, limit = 20 }) => {
@@ -51,6 +51,35 @@ export const api = createApi({
       query: () => ({ url: 'admin/digest', method: 'POST' }),
       invalidatesTags: ['Digest'],
     }),
+
+    getCollections: builder.query<Collection[], void>({
+      query: () => 'collections',
+      providesTags: ['Collections'],
+    }),
+    getCollectionDetail: builder.query<CollectionDetail, string>({
+      query: (id) => `collections/${id}`,
+      providesTags: (_result, _err, id) => [{ type: 'Collections', id }],
+    }),
+    createCollection: builder.mutation<Collection, { title: string }>({
+      query: (body) => ({ url: 'collections', method: 'POST', body }),
+      invalidatesTags: ['Collections'],
+    }),
+    deleteCollection: builder.mutation<{ deleted: boolean }, string>({
+      query: (id) => ({ url: `collections/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Collections'],
+    }),
+    createBookmark: builder.mutation<Bookmark, { clusterId: string; collectionId: string; note?: string }>({
+      query: (body) => ({ url: 'bookmarks', method: 'POST', body }),
+      invalidatesTags: ['Collections', 'Bookmarks'],
+    }),
+    deleteBookmark: builder.mutation<{ deleted: boolean }, string>({
+      query: (id) => ({ url: `bookmarks/${id}`, method: 'DELETE' }),
+      invalidatesTags: ['Collections', 'Bookmarks'],
+    }),
+    checkBookmarks: builder.query<BookmarkCheck[], string>({
+      query: (clusterId) => `bookmarks/check/${clusterId}`,
+      providesTags: ['Bookmarks'],
+    }),
   }),
 });
 
@@ -62,4 +91,11 @@ export const {
   useTriggerSyncMutation,
   useTriggerEnrichMutation,
   useTriggerDigestMutation,
+  useGetCollectionsQuery,
+  useGetCollectionDetailQuery,
+  useCreateCollectionMutation,
+  useDeleteCollectionMutation,
+  useCreateBookmarkMutation,
+  useDeleteBookmarkMutation,
+  useCheckBookmarksQuery,
 } = api;

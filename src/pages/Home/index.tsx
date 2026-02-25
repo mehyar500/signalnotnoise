@@ -1,4 +1,4 @@
-import { Zap, TrendingUp, Database, RefreshCw } from 'lucide-react';
+import { Zap, TrendingUp, Database, RefreshCw, Radio, Cpu } from 'lucide-react';
 import { GlassCard } from '@/components/GlassCard';
 import { InfiniteFeed } from '@/features/feed/InfiniteFeed';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
@@ -17,18 +17,32 @@ export function Home() {
   return (
     <div className="space-y-6">
       {stats && (
-        <div className="flex items-center gap-4 flex-wrap">
-          <span className="text-xs text-white/30">{stats.activeSources} sources</span>
-          <span className="text-xs text-white/30">{stats.totalArticles} articles</span>
-          <span className="text-xs text-white/30">{stats.activeClusters} stories</span>
-          <span className="text-xs text-white/30">{stats.articlesLast24h} new today</span>
-          {stats.aiAvailable && <span className="text-xs text-green-400/60">AI active</span>}
+        <div className="flex items-center gap-3 flex-wrap text-[11px]">
+          <div className="flex items-center gap-1.5 text-white/30">
+            <Radio size={9} className="text-indigo-400/50" />
+            <span>{stats.activeSources} sources</span>
+          </div>
+          <span className="text-white/10">|</span>
+          <span className="text-white/30">{stats.totalArticles.toLocaleString()} articles</span>
+          <span className="text-white/10">|</span>
+          <span className="text-white/30">{stats.activeClusters.toLocaleString()} stories</span>
+          <span className="text-white/10">|</span>
+          <span className="text-white/30">{stats.articlesLast24h.toLocaleString()} new today</span>
+          {stats.aiAvailable && (
+            <>
+              <span className="text-white/10">|</span>
+              <span className="flex items-center gap-1 text-emerald-400/60">
+                <Cpu size={9} />
+                AI active
+              </span>
+            </>
+          )}
           <button
             onClick={() => triggerSync()}
             disabled={isSyncing}
-            className="ml-auto text-xs text-indigo-400/60 hover:text-indigo-400 flex items-center gap-1 transition-colors disabled:opacity-50"
+            className="ml-auto text-[11px] text-indigo-400/50 hover:text-indigo-400 flex items-center gap-1 transition-colors disabled:opacity-50"
           >
-            <RefreshCw size={10} className={isSyncing ? 'animate-spin' : ''} />
+            <RefreshCw size={9} className={isSyncing ? 'animate-spin' : ''} />
             {isSyncing ? 'Syncing...' : 'Sync now'}
           </button>
         </div>
@@ -37,27 +51,28 @@ export function Home() {
       {hasDigest && !isDone && (
         <GlassCard
           hoverable
+          glow
           onClick={() => dispatch(openDigest())}
-          className="p-5 border-indigo-500/30 bg-gradient-to-r from-indigo-500/10 to-purple-500/10"
+          className="p-5 border-indigo-500/20 bg-gradient-to-r from-indigo-500/[0.08] to-purple-500/[0.08]"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-indigo-500/20">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/10">
                 <Zap size={18} className="text-indigo-400" />
               </div>
               <div>
                 <p className="font-semibold text-white text-sm">One-Minute World</p>
-                <p className="text-white/50 text-xs">Today's digest is ready</p>
+                <p className="text-white/40 text-xs mt-0.5">Today's digest is ready</p>
               </div>
             </div>
-            <span className="text-xs text-indigo-400 font-medium">Read now →</span>
+            <span className="text-xs text-indigo-400/80 font-medium group-hover:text-indigo-300 transition-colors">Read now &rarr;</span>
           </div>
         </GlassCard>
       )}
 
       <div className="flex items-center gap-2">
-        <TrendingUp size={14} className="text-white/40" />
-        <h2 className="text-sm font-medium text-white/40 uppercase tracking-wider">Stories</h2>
+        <TrendingUp size={14} className="text-white/30" />
+        <h2 className="text-xs font-medium text-white/30 uppercase tracking-widest">Stories</h2>
       </div>
 
       <InfiniteFeed />

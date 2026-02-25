@@ -6,16 +6,18 @@ interface GlassCardProps {
   className?: string;
   onClick?: () => void;
   hoverable?: boolean;
+  glow?: boolean;
 }
 
-export function GlassCard({ children, className, onClick, hoverable = false }: GlassCardProps) {
+export function GlassCard({ children, className, onClick, hoverable = false, glow = false }: GlassCardProps) {
   return (
     <div
       onClick={onClick}
       className={clsx(
-        'rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md',
-        hoverable && 'cursor-pointer transition-all duration-200 hover:bg-white/10 hover:border-white/20 hover:scale-[1.01] hover:shadow-xl',
-        onClick && 'cursor-pointer',
+        'rounded-2xl border border-white/[0.07] bg-white/[0.03] backdrop-blur-xl transition-all duration-300',
+        hoverable && 'cursor-pointer hover:bg-white/[0.07] hover:border-white/[0.14] hover:shadow-2xl hover:shadow-indigo-500/5 hover:-translate-y-0.5',
+        glow && 'animate-pulse-glow',
+        onClick && !hoverable && 'cursor-pointer',
         className
       )}
     >

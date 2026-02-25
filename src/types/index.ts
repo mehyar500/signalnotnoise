@@ -52,7 +52,25 @@ export interface DailyDigest {
 export interface Collection {
   id: string;
   title: string;
-  bookmarks: Bookmark[];
+  bookmarkCount: number;
+  createdAt: string;
+  updatedAt: string;
+  lastBookmarkAt?: string;
+}
+
+export interface CollectionDetail {
+  id: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  bookmarks: BookmarkWithCluster[];
+}
+
+export interface BookmarkWithCluster {
+  bookmarkId: string;
+  note?: string;
+  bookmarkedAt: string;
+  cluster: Cluster;
 }
 
 export interface Bookmark {
@@ -60,4 +78,11 @@ export interface Bookmark {
   collectionId: string;
   clusterId: string;
   note?: string;
+  createdAt: string;
+}
+
+export interface BookmarkCheck {
+  bookmarkId: string;
+  collectionId: string;
+  collectionTitle: string;
 }

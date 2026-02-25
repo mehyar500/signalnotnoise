@@ -43,16 +43,17 @@ export function InfiniteFeed() {
 
   if (isLoading && allClusters.length === 0) {
     return (
-      <div className="flex justify-center py-16">
-        <Loader2 size={32} className="animate-spin text-indigo-400" />
+      <div className="flex flex-col items-center gap-3 py-16">
+        <Loader2 size={28} className="animate-spin text-indigo-400" />
+        <p className="text-white/20 text-xs">Loading stories...</p>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="text-center py-16 space-y-3">
-        <p className="text-white/50 text-sm">Could not load stories. The backend may still be starting up.</p>
+      <div className="text-center py-16 space-y-3 animate-fade-in">
+        <p className="text-white/40 text-sm">Could not load stories. The backend may still be starting up.</p>
         <button onClick={() => refetch()} className="text-indigo-400 text-sm hover:underline flex items-center gap-1.5 mx-auto">
           <RefreshCw size={14} />
           Try again
@@ -63,9 +64,9 @@ export function InfiniteFeed() {
 
   if (allClusters.length === 0 && !isLoading) {
     return (
-      <div className="text-center py-16 space-y-3">
-        <p className="text-white/50 text-sm">No stories yet. The system is fetching articles from RSS feeds.</p>
-        <p className="text-white/30 text-xs">Stories will appear here once articles are clustered (need 2+ articles per story).</p>
+      <div className="text-center py-16 space-y-3 animate-fade-in">
+        <p className="text-white/40 text-sm">No stories yet. The system is fetching articles from RSS feeds.</p>
+        <p className="text-white/20 text-xs">Stories will appear here once articles are clustered (need 2+ articles per story).</p>
         <button onClick={() => { setCursor(undefined); refetch(); }} className="text-indigo-400 text-sm hover:underline flex items-center gap-1.5 mx-auto mt-4">
           <RefreshCw size={14} />
           Refresh
@@ -75,18 +76,18 @@ export function InfiniteFeed() {
   }
 
   return (
-    <div className="space-y-4">
-      {allClusters.map((cluster) => (
-        <ClusterCard key={cluster.id} cluster={cluster} />
+    <div className="space-y-3">
+      {allClusters.map((cluster, i) => (
+        <ClusterCard key={cluster.id} cluster={cluster} index={i} />
       ))}
       {hasMore && (
         <div ref={observerRef} className="flex justify-center py-8">
-          {isFetching && <Loader2 size={24} className="animate-spin text-indigo-400" />}
+          {isFetching && <Loader2 size={20} className="animate-spin text-indigo-400/60" />}
         </div>
       )}
       {!hasMore && allClusters.length > 0 && (
         <div className="text-center py-8">
-          <p className="text-white/30 text-sm">You've seen all {allClusters.length} stories.</p>
+          <p className="text-white/20 text-xs">You've seen all {allClusters.length} stories.</p>
         </div>
       )}
     </div>
