@@ -1,11 +1,26 @@
 import { useNavigate } from 'react-router-dom';
-import { Users, Clock, ArrowUpRight, Flame, Beaker } from 'lucide-react';
+import { Users, Clock, ArrowUpRight, Flame, Beaker, Newspaper } from 'lucide-react';
 import { useTimeAgo } from '@/hooks/useTimeAgo';
 import type { Cluster } from '@/types';
 
 interface ClusterCardProps {
   cluster: Cluster;
   variant?: 'hero' | 'featured' | 'standard';
+}
+
+const gradients = [
+  'from-indigo-600/30 via-purple-600/20 to-blue-600/30',
+  'from-violet-600/30 via-fuchsia-600/20 to-pink-600/30',
+  'from-cyan-600/30 via-teal-600/20 to-emerald-600/30',
+  'from-amber-600/30 via-orange-600/20 to-red-600/30',
+  'from-blue-600/30 via-indigo-600/20 to-violet-600/30',
+  'from-rose-600/30 via-pink-600/20 to-fuchsia-600/30',
+];
+
+function getGradient(id: string) {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = ((hash << 5) - hash + id.charCodeAt(i)) | 0;
+  return gradients[Math.abs(hash) % gradients.length];
 }
 
 function BiasBar({ breakdown }: { breakdown: Cluster['sourceBreakdown'] }) {
@@ -17,7 +32,6 @@ function BiasBar({ breakdown }: { breakdown: Cluster['sourceBreakdown'] }) {
   ].filter(s => s.count > 0);
 
   const total = segments.reduce((a, s) => a + s.count, 0);
-
   if (total === 0) return null;
 
   return (
@@ -47,9 +61,33 @@ function MiniScores({ heat, substance }: { heat: number; substance: number }) {
   );
 }
 
+function ImageBlock({ src, fallbackGradient, className, iconSize = 20 }: { src: string | null; fallbackGradient: string; className?: string; iconSize?: number }) {
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      {src ? (
+        <img
+          src={src}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+          onError={(e) => {
+            const img = e.target as HTMLImageElement;
+            img.style.display = 'none';
+            img.parentElement!.querySelector('.fallback')?.classList.remove('hidden');
+          }}
+        />
+      ) : null}
+      <div className={`fallback absolute inset-0 bg-gradient-to-br ${fallbackGradient} flex items-center justify-center ${src ? 'hidden' : ''}`}>
+        <Newspaper size={iconSize} className="text-white/10" />
+      </div>
+    </div>
+  );
+}
+
 export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps) {
   const navigate = useNavigate();
   const timeAgo = useTimeAgo(cluster.lastArticleAt);
+  const gradient = getGradient(cluster.id);
 
   if (variant === 'hero') {
     return (
@@ -65,10 +103,9 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
             loading="eager"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/80 to-slate-900/80" />
+          <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
 
         <div className="relative h-full flex flex-col justify-end p-6 sm:p-8">
           <div className="flex items-center gap-3 mb-3">
@@ -106,21 +143,13 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
         onClick={() => navigate(`/cluster/${cluster.id}`)}
         className="group cursor-pointer relative rounded-2xl overflow-hidden flex flex-col bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.05] transition-all duration-300 animate-fade-in h-full"
       >
-        {cluster.heroImage ? (
-          <div className="relative h-44 sm:h-48 overflow-hidden shrink-0">
-            <img
-              src={cluster.heroImage}
-              alt=""
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent" />
-          </div>
-        ) : (
-          <div className="h-24 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 relative shrink-0">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] to-transparent" />
-          </div>
-        )}
+        <ImageBlock
+          src={cluster.heroImage}
+          fallbackGradient={gradient}
+          className="h-44 sm:h-48 shrink-0"
+          iconSize={28}
+        />
+        <div className="absolute top-0 left-0 right-0 h-44 sm:h-48 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent pointer-events-none" />
 
         <div className="flex flex-col flex-1 p-5 -mt-6 relative">
           <div className="flex items-center gap-2 mb-2.5">
@@ -159,44 +188,37 @@ export function ClusterCard({ cluster, variant = 'standard' }: ClusterCardProps)
   return (
     <div
       onClick={() => navigate(`/cluster/${cluster.id}`)}
-      className="group cursor-pointer rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.05] transition-all duration-300 overflow-hidden animate-fade-in h-full"
+      className="group cursor-pointer rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.05] transition-all duration-300 overflow-hidden animate-fade-in h-full flex flex-col relative"
     >
-      <div className="flex gap-0 h-full">
-        <div className="flex flex-col flex-1 p-4 sm:p-5 min-w-0">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-[10px] font-bold tracking-widest text-indigo-400/70 uppercase truncate">
-              {cluster.topic}
-            </span>
-            {cluster.heatScore > 0.7 && (
-              <Flame size={9} className="text-orange-400/70 shrink-0" />
-            )}
-          </div>
-          <h3 className="text-sm font-semibold text-white leading-snug mb-1.5 group-hover:text-indigo-200 transition-colors line-clamp-2">
-            {cluster.representativeHeadline}
-          </h3>
-          {cluster.summary && (
-            <p className="text-[11px] text-white/35 leading-relaxed mb-3 line-clamp-2">
-              {cluster.summary}
-            </p>
+      <ImageBlock
+        src={cluster.heroImage}
+        fallbackGradient={gradient}
+        className="h-32 sm:h-36 shrink-0"
+        iconSize={22}
+      />
+      <div className="absolute top-0 left-0 right-0 h-32 sm:h-36 bg-gradient-to-t from-[#0f172a]/80 via-transparent to-transparent pointer-events-none rounded-t-2xl" />
+
+      <div className="flex flex-col flex-1 p-4 -mt-4 relative">
+        <div className="flex items-center gap-2 mb-1.5">
+          <span className="text-[9px] font-bold tracking-widest text-indigo-400/70 uppercase truncate">
+            {cluster.topic}
+          </span>
+          {cluster.heatScore > 0.7 && (
+            <Flame size={8} className="text-orange-400/70 shrink-0" />
           )}
-          <div className="flex items-center gap-3 mt-auto">
-            <BiasBar breakdown={cluster.sourceBreakdown} />
-            <MiniScores heat={cluster.heatScore} substance={cluster.substanceScore} />
-            <span className="text-[10px] text-white/20 ml-auto">{timeAgo}</span>
-          </div>
         </div>
-        {cluster.heroImage && (
-          <div className="shrink-0 w-24 sm:w-32 relative overflow-hidden">
-            <img
-              src={cluster.heroImage}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-              onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = 'none'; }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]/50 to-transparent" />
-          </div>
+        <h3 className="text-[13px] font-semibold text-white leading-snug mb-1.5 group-hover:text-indigo-200 transition-colors line-clamp-2">
+          {cluster.representativeHeadline}
+        </h3>
+        {cluster.summary && (
+          <p className="text-[11px] text-white/30 leading-relaxed mb-2 line-clamp-2 flex-1">
+            {cluster.summary}
+          </p>
         )}
+        <div className="flex items-center gap-2 mt-auto pt-2 border-t border-white/[0.04]">
+          <BiasBar breakdown={cluster.sourceBreakdown} />
+          <span className="text-[9px] text-white/20 ml-auto">{timeAgo}</span>
+        </div>
       </div>
     </div>
   );
